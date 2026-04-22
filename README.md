@@ -3,7 +3,7 @@
   <picture>
     <source srcset="https://raw.githubusercontent.com/seixas-fun/tamandua/refs/heads/main/app/static/logos/tamandua_vertical_dark.png" media="(prefers-color-scheme: dark)">
     <source srcset="https://raw.githubusercontent.com/seixas-fun/tamandua/refs/heads/main/app/static/logos/tamandua_vertical_light.png" media="(prefers-color-scheme: light)">
-    <img src="https://raw.githubusercontent.com/seixas-fun/tamandua/refs/heads/main/app/static/logos/tamandua_vertical_light.png" alt="Tamanduá logo" style="height: auto; width: auto; max-height: 100px;">
+    <img src="https://raw.githubusercontent.com/seixas-fun/tamandua/refs/heads/main/app/static/logos/tamandua_vertical_light.png" alt="Tamanduá logo" style="height: 200px; width: auto; max-height: 200px;">
   </picture>
 </a>
 </h1> 
