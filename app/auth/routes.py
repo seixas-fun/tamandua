@@ -10,11 +10,7 @@ google = oauth.register(
     name='google',
     client_id=os.getenv('GOOGLE_CLIENT_ID'),
     client_secret=os.getenv('GOOGLE_CLIENT_SECRET'),
-    access_token_url='https://accounts.google.com/o/oauth2/token',
-    access_token_params=None,
-    authorize_url='https://accounts.google.com/o/oauth2/auth',
-    authorize_params=None,
-    api_base_url='https://www.googleapis.com/oauth2/v1/',
+    server_metadata_url='https://accounts.google.com/.well-known/openid-configuration',
     client_kwargs={'scope': 'openid email profile'},
 )
 
@@ -25,18 +21,24 @@ def login():
 
 @auth_bp.route('/authorize')
 def authorize():
+    # Authlib automatically verifies the token using the keys from the metadata URL
     token = google.authorize_access_token()
-    resp = google.get('userinfo')
-    user_info = resp.json()
     
-    user = User.query.filter_by(google_id=user_info['id']).first()
+    # Extract the user info directly from the parsed token
+    user_info = token.get('userinfo')
+    
+    if not user_info:
+        return "Failed to fetch user info", 400
+
+    user = User.query.filter_by(google_id=user_info['sub']).first()
+    
     if not user:
         # Create a default nickname from email
         base_nick = user_info['email'].split('@')[0]
         user = User(
-            google_id=user_info['id'],
+            google_id=user_info['sub'], # 'sub' is the standard OpenID ID field
             email=user_info['email'],
-            name=user_info['name'],
+            name=user_info.get('name', 'Player'),
             nickname=base_nick,
             avatar=user_info.get('picture')
         )
@@ -45,6 +47,7 @@ def authorize():
         
     login_user(user)
     return redirect(url_for('game.index'))
+
 
 @auth_bp.route('/logout')
 @login_required

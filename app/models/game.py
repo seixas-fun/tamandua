@@ -1,5 +1,5 @@
 from app.extensions import db
-from datetime import datetime
+from datetime import datetime, timezone
 
 class GameSession(db.Model):
     __tablename__ = 'game_sessions'
@@ -11,4 +11,4 @@ class GameSession(db.Model):
     time_taken = db.Column(db.Float, nullable=False)
     hits = db.Column(db.Integer, default=0)
     errors = db.Column(db.Integer, default=0)
-    completed_at = db.Column(db.DateTime, default=lambda: datetime.now(datetime.timezone.utc))
+    completed_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))

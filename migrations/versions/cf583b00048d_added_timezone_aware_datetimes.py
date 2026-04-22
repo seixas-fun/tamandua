@@ -1,8 +1,8 @@
-"""Initial schema setup
+"""Added timezone-aware datetimes
 
-Revision ID: 62fc6ef100e8
+Revision ID: cf583b00048d
 Revises: 
-Create Date: 2026-04-22 04:05:35.916297
+Create Date: 2026-04-22 05:03:06.242996
 
 """
 from alembic import op
@@ -10,7 +10,7 @@ import sqlalchemy as sa
 
 
 # revision identifiers, used by Alembic.
-revision = '62fc6ef100e8'
+revision = 'cf583b00048d'
 down_revision = None
 branch_labels = None
 depends_on = None
@@ -25,7 +25,7 @@ def upgrade():
     sa.Column('name', sa.String(length=120), nullable=False),
     sa.Column('nickname', sa.String(length=50), nullable=False),
     sa.Column('avatar', sa.String(length=255), nullable=True),
-    sa.Column('created_at', sa.DateTime(), nullable=True),
+    sa.Column('created_at', sa.DateTime(timezone=True), nullable=True),
     sa.PrimaryKeyConstraint('id'),
     sa.UniqueConstraint('email'),
     sa.UniqueConstraint('google_id'),
@@ -49,7 +49,7 @@ def upgrade():
     sa.Column('time_taken', sa.Float(), nullable=False),
     sa.Column('hits', sa.Integer(), nullable=True),
     sa.Column('errors', sa.Integer(), nullable=True),
-    sa.Column('completed_at', sa.DateTime(), nullable=True),
+    sa.Column('completed_at', sa.DateTime(timezone=True), nullable=True),
     sa.ForeignKeyConstraint(['user_id'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

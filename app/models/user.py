@@ -1,6 +1,6 @@
 from app.extensions import db
 from flask_login import UserMixin
-from datetime import datetime
+from datetime import datetime, timezone
 
 class User(UserMixin, db.Model):
     __tablename__ = 'users'
@@ -11,7 +11,7 @@ class User(UserMixin, db.Model):
     name = db.Column(db.String(120), nullable=False)
     nickname = db.Column(db.String(50), unique=True, nullable=False)
     avatar = db.Column(db.String(255))
-    created_at = db.Column(db.DateTime, default=lambda: datetime.now(datetime.timezone.utc))
+    created_at = db.Column(db.DateTime(timezone=True), default=lambda: datetime.now(timezone.utc))
 
     sessions = db.relationship('GameSession', backref='player', lazy=True)
     flag_stats = db.relationship('FlagStat', backref='player', lazy=True)
