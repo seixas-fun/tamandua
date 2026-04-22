@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+    .game-card { max-width: 600px; }
+    .header-info { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; border-bottom: 2px solid #f0f4f8; padding-bottom: 15px; }
+    .progress { font-weight: 800; color: var(--dark); font-size: 1.1rem; }
+    .timer-badge { background: var(--dark); color: var(--white); padding: 8px 15px; border-radius: 50px; font-weight: 800; font-family: 'Courier New', monospace; font-size: 1.2rem; }
+    .flag-display { background: var(--white); height: 300px; display: flex; align-items: center; justify-content: center; border-radius: 20px; margin-bottom: 25px; box-shadow: 0 5px 15px rgba(0,0,0,0.05); overflow: hidden; }
+    .flag-img { max-width: 95%; max-height: 95%; object-fit: contain; filter: drop-shadow(0 5px 15px rgba(0,0,0,0.1)); }
+    input[type="text"] { width: 100%; padding: 20px; font-size: 1.4rem; border: 3px solid #edf2f7; border-radius: 15px; outline: none; text-align: center; font-weight: 700; transition: all 0.3s; color: var(--dark); }
+    input[type="text"]:focus { border-color: var(--primary); }
+    .is-correct { border-color: var(--primary) !important; background-color: #a3cef8; color: #333333; }
+    .hint { margin-top: 15px; color: var(--dark); font-size: 0.85rem; font-weight: 600; }
+    .exit-link { display: inline-block; margin-top: 40px; padding: 10px; color: var(--dark); text-decoration: none; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; }
+    .exit-link:hover { color: #e74c3c; }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="glass-card game-card" {% if session['current_idx'] > 0 %}style="animation: none;"{% endif %}>
+    <div class="header-info">
+        <span class="progress"><i class="fas fa-flag"></i> {{ session['current_idx'] + 1 }} / {{ total_flags }}</span>
+        <div class="timer-badge">
+            <i class="fas fa-stopwatch"></i> <span id="timerDisplay">00:00</span>
+        </div>
+    </div>
+
+    <div class="flag-display">
+        <img src="{{ url_for('static', filename='flags/' + folder + '/' + country['image']) }}" class="flag-img" alt="Flag">
+    </div>
+
+    <form id="answerForm" method="POST">
+        <input type="text" id="answerInput" name="answer" 
+               placeholder="{{ _('Type country name...') }}" 
+               autocomplete="off" autofocus
+               data-answers="{{ country['synonyms'] | join('|') }}|{{ country['name'] }}">
+    </form>
+
+    <div class="hint">{{ _('No need to press Enter. The game validates instantly!') }}</div>
+    <a href="{{ url_for('game.index') }}" class="exit-link"><i class="fa-solid fa-right-from-bracket"></i> {{ _('QUIT') }}</a>
+</div>
+
+<script>
+    const input = document.getElementById('answerInput');
+    const form = document.getElementById('answerForm');
+    const timerDisplay = document.getElementById('timerDisplay');
+    const startTime = {{ start_time | round }}; 
+
+    function updateTimer() {
+        const now = Math.floor(Date.now() / 1000);
+        const elapsed = now - startTime;
+        const m = Math.floor(elapsed / 60);
+        const s = elapsed % 60;
+        timerDisplay.innerText = (m < 10 ? "0"+m : m) + ":" + (s < 10 ? "0"+s : s);
+    }
+    setInterval(updateTimer, 1000);
+    updateTimer();
+
+    function normalize(t) { return t.toLowerCase().normalize("NFD").replace(/[\u0300-\u036f]/g, "").trim(); }
+
+    const validAnswers = input.getAttribute('data-answers').split('|').map(s => normalize(s));
+
+    input.addEventListener('input', function() {
+        if (validAnswers.includes(normalize(this.value))) {
+            input.classList.add('is-correct');
+            input.readOnly = true;
+            setTimeout(() => { form.submit(); }, 150);
+        }
+    });
+
+    input.addEventListener('keydown', e => { if (e.key === 'Enter') e.preventDefault(); });
+</script>
+{% endblock %}
