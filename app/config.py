@@ -4,7 +4,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 class Config:
-    SECRET_KEY = os.getenv('SECRET_KEY', 'dev-fallback-secret-key')
+    SECRET_KEY = os.getenv('FLASK_SECRET_KEY', 'dev-fallback-secret-key')
     
     # PostgreSQL Database
     SQLALCHEMY_DATABASE_URI = os.getenv('DATABASE_URL', 'postgresql+psycopg://localhost/tamandua')
