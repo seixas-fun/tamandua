@@ -1,12 +1,12 @@
 <h1 align="center" style="margin-top:20px; margin-bottom:50px;">
 <a href="https://github.com/seixas-fun/tamandua" target="_blank" rel="noopener noreferrer">
   <picture>
-    <img src="https://raw.githubusercontent.com/seixas-fun/tamandua/refs/heads/main/app/static/logos/logo.png" alt="Carcará logo" style="height: 150px; width: auto; max-height: 150px;">
+    <source srcset="https://raw.githubusercontent.com/seixas-fun/tamandua/refs/heads/main/app/static/logos/tamandua_vertical_dark.png" media="(prefers-color-scheme: dark)">
+    <source srcset="https://raw.githubusercontent.com/seixas-fun/tamandua/refs/heads/main/app/static/logos/tamandua_vertical_light.png" media="(prefers-color-scheme: light)">
+    <img src="https://raw.githubusercontent.com/seixas-fun/tamandua/refs/heads/main/app/static/logos/tamandua_vertical_light.png" alt="Tamanduá logo" style="height: auto; width: auto; max-height: 100px;">
   </picture>
 </a>
-</h1>
-
-# Tamanduá
+</h1> 
 
 A game project for guessing flags through multiple choices or text input.
 
