@@ -1,7 +1,7 @@
 <h1 align="center" style="margin-top:20px; margin-bottom:50px;">
 <a href="https://github.com/seixas-fun/tamandua" target="_blank" rel="noopener noreferrer">
   <picture>
-    <img src="https://raw.githubusercontent.com/seixas-fun/tamandua/refs/heads/main/static/icons/icon.png" alt="Carcará logo" style="height: 150px; width: auto; max-height: 150px;">
+    <img src="https://raw.githubusercontent.com/seixas-fun/tamandua/refs/heads/main/app/static/logos/logo.png" alt="Carcará logo" style="height: 150px; width: auto; max-height: 150px;">
   </picture>
 </a>
 </h1>
@@ -13,11 +13,11 @@ A game project for guessing flags through multiple choices or text input.
 ## Diverse Flag Sets
 Players can choose from three distinct categories to master:
 
-* 🌎 National Flags: Every sovereign nation across the globe.
+* 🌎 **National Flags:** Every sovereign nation across the globe.
 
-* 🏝️ Dependencies & Territories: Overseas territories, special administrative regions, and autonomous zones.
+* 🏝️ **Dependencies & Territories:** Overseas territories, special administrative regions, and autonomous zones.
 
-* 🇧🇷 Brazilian States: The 26 states and the Federal District of Brazil.
+* 🇧🇷 **Brazilian States:** The 26 states and the Federal District of Brazil.
 
 ## Game Modes
 
@@ -44,7 +44,7 @@ Players can choose from three distinct categories to master:
 * [X] Build a minimum viable product (MVP) that runs locally.
 * [X] Implement 2 game modes: choice and typing.
 * [X] Create logo and README.md
-* [ ] Implement new code structure.
+* [X] Implement new code structure.
 * [ ] Writing the documentation (sphinx?).
 * [ ] Set up project environment and Google OAuth.
 * [ ] Implement Global Leaderboard API.
