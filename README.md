@@ -42,18 +42,18 @@ Players can choose from three distinct categories to master:
 
 * [X] Get the flags in high definition
 * [X] Build a minimum viable product (MVP) that runs locally.
-* [X] Implement 2 game modes: choice and typing.
-* [X] Create logo and README.md
+* [X] Create two game modes: choice and typing.
+* [X] Create logo and README.md.
 * [X] Implement new code structure.
-* [ ] Writing the documentation (sphinx?).
-* [ ] Set up project environment and Google OAuth.
-* [ ] Implement Global Leaderboard API.
+* [X] Create SQL database with users and gamesessions.
+* [X] Set up project environment and Google OAuth.
 * [ ] Build the User Profile dashboard.
 * [ ] SQLAlchemy para records.
-* [ ] Deployment online with Render.
+* [ ] Implement Global Leaderboard API.
+* [ ] Deployment online.
+* [ ] Support for multiple languages (English and Portuguese).
+* [ ] Writing the documentation (sphinx?).
 * [ ] Implement achievements for the player.
-* [ ] Support for multiple languages (en and pt).
-
 
 ## Contributing
 Contributions are welcome! If you have ideas for new game modes or better flag datasets, feel free to fork the repo and submit a PR.
