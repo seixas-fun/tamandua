@@ -2,80 +2,237 @@
 
 {% block extra_css %}
 <style>
-    .profile-card { max-width: 800px; text-align: left; }
-    .profile-header { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; border-bottom: 2px solid #eee; padding-bottom: 20px;}
-    .profile-avatar { width: 80px; height: 80px; border-radius: 50%; border: 3px solid var(--primary); }
-    .profile-info h1 { margin: 0; font-size: 2rem; color: var(--dark); }
-    .profile-info p { margin: 5px 0 0 0; color: #666; font-weight: 600; }
+    .profile-card { max-width: 900px; text-align: left; margin: 40px auto; }
     
-    .dashboard-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    .dash-section { background: rgba(0,0,0,0.02); padding: 20px; border-radius: 15px; }
-    .dash-section h3 { margin-top: 0; color: var(--dark); font-size: 1.2rem; display: flex; align-items: center; gap: 10px;}
+    /* Header Section */
+    .profile-header { display: flex; align-items: center; gap: 20px; margin-bottom: 30px; border-bottom: 2px solid #eee; padding-bottom: 20px; flex-wrap: wrap;}
+    .profile-avatar { width: 100px; height: 100px; border-radius: 50%; border: 4px solid var(--primary); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    .profile-info h1 { margin: 0; font-size: 2.2rem; color: var(--dark); display: flex; align-items: center; gap: 10px; }
+    .profile-info p { margin: 5px 0 0 0; color: #666; font-weight: 600; font-size: 0.9rem; }
     
-    .miss-list { list-style: none; padding: 0; margin: 0; }
-    .miss-list li { display: flex; justify-content: space-between; padding: 10px; border-bottom: 1px solid #ddd; font-weight: 600;}
-    .miss-list li span.count { color: #e74c3c; background: #fadbd8; padding: 2px 8px; border-radius: 10px; font-size: 0.8rem;}
+    /* Nickname Form */
+    .nickname-form { display: flex; gap: 10px; margin-top: 10px; }
+    .nickname-form input { padding: 8px 15px; border-radius: 10px; border: 2px solid #edf2f7; font-weight: 600; color: var(--dark); outline: none;}
+    .nickname-form input:focus { border-color: var(--primary); }
+    .nickname-form button { background: var(--primary); color: var(--dark); border: none; padding: 8px 15px; border-radius: 10px; font-weight: bold; cursor: pointer; transition: 0.3s; }
+    .nickname-form button:hover { background: var(--dark); color: white; }
 
-    .history-table { width: 100%; border-collapse: collapse; font-size: 0.9rem; }
-    .history-table th, .history-table td { padding: 10px; border-bottom: 1px solid #ddd; text-align: left; }
-    .history-table th { color: #666; font-weight: 700; }
+    /* Flash Messages */
+    .flash { padding: 10px; border-radius: 8px; margin-bottom: 20px; font-weight: bold; font-size: 0.9rem; }
+    .flash.success { background: #d4edda; color: #155724; }
+    .flash.error { background: #f8d7da; color: #721c24; }
+
+    /* Dashboard Layout */
+    .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
+    .dash-section { background: rgba(0,0,0,0.02); padding: 20px; border-radius: 15px; border: 1px solid rgba(0,0,0,0.05);}
+    .dash-section h3 { margin-top: 0; color: var(--dark); font-size: 1.2rem; display: flex; align-items: center; gap: 10px; margin-bottom: 15px;}
+    
+    /* Stats Row */
+    .stats-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px;}
+    .stat-box { background: white; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 2px 5px rgba(0,0,0,0.02); }
+    .stat-box .val { font-size: 1.8rem; font-weight: 800; color: var(--dark); display: block;}
+    .stat-box .lbl { font-size: 0.8rem; color: #888; font-weight: bold; text-transform: uppercase;}
+
+    /* Lists (Misses/Hits) */
+    .flag-list { list-style: none; padding: 0; margin: 0; }
+    .flag-list li { display: flex; justify-content: space-between; padding: 8px 10px; border-bottom: 1px solid #ddd; font-weight: 600; font-size: 0.9rem;}
+    .flag-list li span.count { padding: 2px 8px; border-radius: 10px; font-size: 0.8rem;}
+    .count-miss { color: #e74c3c; background: #fadbd8; }
+    .count-hit { color: #2ecc71; background: #d5f5e3; }
+
+    /* Achievements */
+    .achievements { display: flex; gap: 15px; flex-wrap: wrap; }
+    .achievement-badge { display: flex; align-items: center; gap: 10px; padding: 10px 15px; border-radius: 12px; font-weight: bold; font-size: 0.9rem; background: #eee; color: #999; transition: 0.3s; }
+    .achievement-badge.earned { background: #fff3e0; color: #e67e22; border: 1px solid #ffcc80; }
+    .achievement-badge.earned i { color: #f39c12; }
+
+    /* Chart Container */
+    .chart-container { position: relative; height: 250px; width: 100%; margin-top: 20px;}
+
+    /* Inline Edit Buttons */
+    .edit-icon-btn {
+        background: none;
+        border: none;
+        color: #bbb;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: color 0.2s;
+        margin-left: 10px;
+        vertical-align: middle;
+    }
+    .edit-icon-btn:hover {
+        color: var(--primary);
+    }
+    .nickname-form .cancel-btn {
+        background: #eee;
+        color: #666;
+    }
+    .nickname-form .cancel-btn:hover {
+        background: #ddd;
+        color: var(--dark);
+    }
 </style>
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% endblock %}
 
 {% block content %}
 <div class="glass-card profile-card">
+    
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
     <div class="profile-header">
         <img src="{{ current_user.avatar }}" alt="Avatar" class="profile-avatar">
         <div class="profile-info">
-            <h1>{{ current_user.nickname }}</h1>
-            <p>{{ current_user.email }}</p>
+            <div id="nickname-display">
+                <h1>
+                    {{ current_user.nickname }} 
+                    <button id="edit-nickname-btn" class="edit-icon-btn" title="{{ _('Edit Nickname') }}">
+                    <i class="fas fa-pencil-alt"></i>
+                    </button>
+                </h1>
+            <p style="font-weight: 600; color: var(--dark); margin-top: 20px; margin-bottom: 20px; display: flex; align-items: left; justify-content: left; gap: 8px; flex-wrap: wrap;">
+            <i class="fas fa-trophy" style="text-align: left; color: var(--dark);  font-size: 1.1rem;"></i>
+            <span style="font-size: 1.1rem;"> {{ _('Tier') }}: <span class="tier-badge tier-{{ tier }}">{{ _(tier) }}</span></span>
+            </p></div>
+            
+            <form id="nickname-form" class="nickname-form" action="{{ url_for('profile.update_nickname') }}" method="POST" style="display: none;">
+                <input type="text" name="nickname" value="{{ current_user.nickname }}" maxlength="20" required>
+                <button type="submit">{{ _('Save') }}</button>
+                <button type="button" id="cancel-edit-btn" class="cancel-btn">{{ _('Cancel') }}</button>
+            </form>
+        </div>
+    </div>
+
+    <div class="stats-row">
+        <div class="stat-box">
+            <span class="val">{{ total_games }}</span>
+            <span class="lbl">{{ _('Games Played') }}</span>
+        </div>
+        <div class="stat-box">
+            <span class="val">{{ accuracy }}%</span>
+            <span class="lbl">{{ _('Global Accuracy') }}</span>
         </div>
     </div>
 
     <div class="dashboard-grid">
-        <div class="dash-section">
-            <h3><i class="fas fa-crosshairs"></i> {{ _('Top 5 Missed Flags') }}</h3>
-            <ul class="miss-list">
-                {% for stat in missed %}
-                <li>
-                    <span>{{ stat.flag_name }} <small style="color:#888;">({{ stat.flag_set }})</small></span>
-                    <span class="count">{{ stat.misses }} {{ _('misses') }}</span>
-                </li>
+        
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+            <div class="dash-section">
+                <h3><i class="fas fa-chart-line"></i> {{ _('Evolution (Best Times by Week)') }}</h3>
+                {% if chart_data %}
+                <div class="chart-container">
+                    <canvas id="evolutionChart"></canvas>
+                </div>
                 {% else %}
-                <li style="color: #888;">{{ _('No misses yet! You are a geography master.') }}</li>
-                {% endfor %}
-            </ul>
+                <p style="color: #888; font-size: 0.9rem;">{{ _('Play more Typing Blitz games to see your evolution graph!') }}</p>
+                {% endif %}
+            </div>
+
+            <div class="dash-section">
+                <h3><i class="fas fa-medal"></i> {{ _('Achievements') }}</h3>
+                <div class="achievements">
+                    <div class="achievement-badge {% if achievements.played_choice %}earned{% endif %}">
+                        <i class="fas fa-hand-point-up"></i> {{ _('Choice Explorer') }}
+                    </div>
+                    <div class="achievement-badge {% if achievements.played_typing %}earned{% endif %}">
+                        <i class="fas fa-keyboard"></i> {{ _('Keyboard Warrior') }}
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="dash-section">
-            <h3><i class="fas fa-history"></i> {{ _('Recent Games') }}</h3>
-            <table class="history-table">
-                <thead>
-                    <tr>
-                        <th>{{ _('Mode') }}</th>
-                        <th>{{ _('Set') }}</th>
-                        <th>{{ _('Score/Time') }}</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for game in history %}
-                    <tr>
-                        <td><span style="text-transform: uppercase; font-weight: bold; color: var(--primary);">{{ game.mode }}</span></td>
-                        <td>{{ game.flag_set }}</td>
-                        <td style="font-weight: 600;">
-                            {% if game.mode == 'typing' %}
-                                {{ game.time_taken }}s
-                            {% else %}
-                                {{ game.hits }}H / {{ game.errors }}M
-                            {% endif %}
-                        </td>
-                    </tr>
+        <div style="display: flex; flex-direction: column; gap: 20px;">
+            <div class="dash-section">
+                <h3><i class="fas fa-crosshairs"></i> {{ _('Needs Practice (Most Missed)') }}</h3>
+                <ul class="flag-list">
+                    {% for stat in missed %}
+                    <li>
+                        <span>{{ stat.flag_name }} <small style="color:#888;">({{ stat.flag_set }})</small></span>
+                        <span class="count count-miss">{{ stat.misses }} {{ _('misses') }}</span>
+                    </li>
                     {% else %}
-                    <tr><td colspan="3" style="text-align: center; color: #888;">{{ _('No games played yet.') }}</td></tr>
+                    <li style="color: #888;">{{ _('No misses yet! You are a geography master.') }}</li>
                     {% endfor %}
-                </tbody>
-            </table>
+                </ul>
+            </div>
+
+            <div class="dash-section">
+                <h3><i class="fas fa-check-circle"></i> {{ _('Mastered (Most Hit)') }}</h3>
+                <ul class="flag-list">
+                    {% for stat in hit %}
+                    <li>
+                        <span>{{ stat.flag_name }} <small style="color:#888;">({{ stat.flag_set }})</small></span>
+                        <span class="count count-hit">{{ stat.hits }} {{ _('hits') }}</span>
+                    </li>
+                    {% else %}
+                    <li style="color: #888;">{{ _('Keep playing to build your mastered list!') }}</li>
+                    {% endfor %}
+                </ul>
+            </div>
         </div>
+
     </div>
 </div>
+
+{% if chart_data %}
+<script>
+    const ctx = document.getElementById('evolutionChart').getContext('2d');
+    const evolutionChart = new Chart(ctx, {
+        type: 'line',
+        data: {
+            labels: {{ chart_labels | safe }},
+            datasets: [{
+                label: '{{ _("Best Time (Seconds)") }}',
+                data: {{ chart_data | safe }},
+                borderColor: '#61b4e1',
+                backgroundColor: 'rgba(97, 180, 225, 0.2)',
+                borderWidth: 3,
+                pointBackgroundColor: '#1b2c5e',
+                pointRadius: 4,
+                fill: true,
+                tension: 0.3
+            }]
+        },
+        options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            scales: {
+                y: { beginAtZero: false, grid: { color: '#eee' } },
+                x: { grid: { display: false } }
+            },
+            plugins: {
+                legend: { display: false }
+            }
+        }
+    });
+</script>
+{% endif %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const displayMode = document.getElementById('nickname-display');
+        const editMode = document.getElementById('nickname-form');
+        const editBtn = document.getElementById('edit-nickname-btn');
+        const cancelBtn = document.getElementById('cancel-edit-btn');
+
+        // When Pencil is clicked: Hide display, show form
+        editBtn.addEventListener('click', function() {
+            displayMode.style.display = 'none';
+            editMode.style.display = 'flex';
+        });
+
+        // When Cancel is clicked: Hide form, show display
+        cancelBtn.addEventListener('click', function() {
+            editMode.style.display = 'none';
+            displayMode.style.display = 'block';
+        });
+    });
+</script>
+
 {% endblock %}

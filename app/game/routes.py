@@ -1,17 +1,34 @@
+import time
+import random
 from flask import Blueprint, render_template, request, session, redirect, url_for
 from flask_login import current_user
+
 from app.extensions import db
 from app.models.game import GameSession
 from app.models.stats import FlagStat
-import time
-import random
+from app.profile.routes import get_user_tier
 from app.data.flags_data import FLAG_SETS
-
 from app.game import game_bp
 
 @game_bp.route('/')
 def index():
-    return render_template('game/index.html')
+    tier = 'Unranked'
+    best_time = None
+    if current_user.is_authenticated:
+        tier = get_user_tier(current_user.id)
+        
+        # Fetch the user's absolute best flawless run in typing mode
+        best_run = GameSession.query.filter_by(
+            user_id=current_user.id, 
+            mode='typing', 
+            errors=0
+        ).order_by(GameSession.time_taken.asc()).first()
+        
+        if best_run:
+            best_time = best_run.time_taken
+
+        # Pass the variables to the template
+    return render_template('game/index.html', tier=tier, best_time=best_time)
 
 @game_bp.route('/start/<mode>')
 def setup(mode):

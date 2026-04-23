@@ -14,8 +14,17 @@
             --accent-gold: #f1c40f;
             --background: #f8f9fa;
             --white: #ffffff;
+            --red: #e74c3c;
         }
 
+        /* Global Tier Badges */
+        .tier-badge { padding: 4px 10px; border-radius: 8px; font-size: 0.85rem; font-weight: 800; text-transform: uppercase; margin: 0 5px;}
+        .tier-Diamond { background: #e0f7fa; color: #00bcd4; border: 2px solid #00bcd4; }
+        .tier-Gold { background: #fff8e1; color: #ffc107; border: 2px solid #ffc107; }
+        .tier-Silver { background: #f5f5f5; color: #9e9e9e; border: 2px solid #9e9e9e; }
+        .tier-Bronze { background: #efebe9; color: #b15b3c; border: 2px solid #b15b3c; }
+        .tier-Unranked { background: #eee; color: #666; border: 2px solid #ccc; }
+        
         * {
             box-sizing: border-box;
             font-family: 'Montserrat', sans-serif;
@@ -56,7 +65,7 @@
             box-shadow: 0 25px 50px rgba(0,0,0,0.3);
             text-align: center;
             width: 90%;
-            max-width: 600px;
+            max-width: 800px;
             animation: fadeIn 0.8s ease-out;
         }
 
@@ -81,7 +90,7 @@
             backdrop-filter: blur(5px);
             color: var(--white);
             padding: 8px 15px;
-            border-radius: 20px;
+            border-radius: 25px;
             text-decoration: none;
             font-weight: 700;
             font-size: 0.9rem;
@@ -89,17 +98,18 @@
             display: flex;
             align-items: center;
             gap: 8px;
-            border: 1px solid rgba(255,255,255,0.3);
+            border: none;
         }
 
         .nav-btn:hover {
             background: rgba(255, 255, 255, 0.4);
             transform: translateY(-2px);
+            scale: 1.1;
         }
 
         .user-avatar {
-            width: 25px;
-            height: 25px;
+            width: 22px;
+            height: 22px;
             border-radius: 50%;
         }
 
@@ -109,24 +119,29 @@
 <body>
 
     <div class="top-nav">
-        <a href="{{ url_for('game.set_language', lang='pt' if session.get('lang') != 'pt' else 'en') }}" class="nav-btn">
+        <a href="{{ url_for('game.index') }}" class="nav-btn" style="font-weight: bold; scale: 1.2;">
+            <i class="fas fa-home"></i>
+        </a>
+
+        <a href="{{ url_for('ranking.index') }}" class="nav-btn" style="scale: 1.2;">
+            <i class="fas fa-trophy"></i> 
+        </a>
+
+        <a href="{{ url_for('game.set_language', lang='pt' if session.get('lang') != 'pt' else 'en') }}" class="nav-btn" style="scale: 1.1;">
             <i class="fas fa-globe"></i> {{ 'PT' if session.get('lang') != 'pt' else 'EN' }}
         </a>
-        
-        <a href="{{ url_for('ranking.index') }}" class="nav-btn">
-            <i class="fas fa-trophy"></i> {{ _('Rankings') }}
-        </a>
+
 
         {% if current_user.is_authenticated %}
             <a href="{{ url_for('profile.dashboard') }}" class="nav-btn">
                 <img src="{{ current_user.avatar }}" alt="Avatar" class="user-avatar">
                 {{ current_user.nickname }}
             </a>
-            <a href="{{ url_for('auth.logout') }}" class="nav-btn" title="{{ _('Logout') }}">
+            <a href="{{ url_for('auth.logout') }}" class="nav-btn" style="scale: 1.2;" title="{{ _('Logout') }}">
                 <i class="fas fa-sign-out-alt"></i>
             </a>
         {% else %}
-            <a href="{{ url_for('auth.login') }}" class="nav-btn" style="background: var(--white); color: var(--dark);">
+            <a href="{{ url_for('auth.login') }}" class="nav-btn" style="background: var(--red); color: var(--white); scale: 1.1;">
                 <i class="fab fa-google"></i> {{ _('Login') }}
             </a>
         {% endif %}
