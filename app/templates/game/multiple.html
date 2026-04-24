@@ -16,6 +16,41 @@
     .option-btn:hover { border-color: var(--primary); background: #f1f8fe; transform: translateY(-3px); box-shadow: 0 5px 15px rgba(56, 46, 204, 0.3); }
     .exit-link { display: inline-block; margin-top: 40px; padding: 10px; color: var(--dark); text-decoration: none; font-size: 0.8rem; font-weight: 700; letter-spacing: 1px; }
     .exit-link:hover { color: #e74c3c; }
+
+    /* The Shake Animation */
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        20%, 60% { transform: translateX(-15px); }
+        40%, 80% { transform: translateX(15px); }
+    }
+    .shake-flag {
+        animation: shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
+    }
+
+    /* Feedback Colors */
+    .btn-correct {
+        background-color: #2ecc71 !important; 
+        border-color: #27ae60 !important;
+        color: white !important;
+        border-radius: 15px !important;
+        transform: translateY(0) !important;
+        box-shadow: 0 4px 10px rgba(46, 204, 113, 0.3) !important;
+    }
+    
+    .btn-wrong {
+        background-color: #e74c3c !important; 
+        border-color: #c0392b !important;
+        color: white !important;
+        border-radius: 15px !important;
+        transform: translateY(0) !important;
+        box-shadow: none !important;
+    }
+    
+    /* Lock the buttons during the delay */
+    .btn-locked {
+        pointer-events: none !important;
+        cursor: default !important;
+    }
 </style>
 {% endblock %}
 
@@ -30,17 +65,73 @@
     </div>
 
     <div class="flag-display">
-        <img src="{{ url_for('static', filename='flags/' + folder + '/' + country['image']) }}" class="flag-img" alt="Flag">
+        <img id="flag-image" src="{{ url_for('static', filename='flags/' + folder + '/' + country.image) }}" class="flag-img" alt="Flag">
     </div>
 
-    <form method="POST" class="options-grid">
+    <div class="options-grid">
         {% for option in options %}
-        <button type="submit" name="choice" value="{{ option }}" class="option-btn">
-            {{ option }}
-        </button>
+            <button type="button" 
+                    class="option-btn" 
+                    data-value="{{ option }}"
+                    data-correct="{% if option == country.name %}true{% else %}false{% endif %}">
+                {{ option }}
+            </button>
         {% endfor %}
-    </form>
+    </div>
 
     <a href="{{ url_for('game.index') }}" class="exit-link"><i class="fa-solid fa-right-from-bracket"></i> {{ _('QUIT') }}</a>
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const buttons = document.querySelectorAll('.option-btn');
+        const flagImage = document.getElementById('flag-image');
+
+        buttons.forEach(button => {
+            button.addEventListener('click', function() {
+                // Prevent double clicking
+                if (this.classList.contains('btn-locked')) return;
+
+                // 1. Lock all buttons
+                buttons.forEach(btn => btn.classList.add('btn-locked'));
+
+                // 2. Safely grab the exact string from the button
+                const guessValue = this.getAttribute('data-value');
+                const isCorrect = this.getAttribute('data-correct') === 'true';
+
+                if (isCorrect) {
+                    this.classList.add('btn-correct');
+                    submitGuess(guessValue, 300);
+                } else {
+                    this.classList.add('btn-wrong');
+                    const correctBtn = document.querySelector('.option-btn[data-correct="true"]');
+                    if (correctBtn) correctBtn.classList.add('btn-correct');
+
+                    if (flagImage) {
+                        flagImage.classList.add('shake-flag');
+                    }
+                    submitGuess(guessValue, 1500);
+                }
+            });
+        });
+
+        // Dynamically build and submit a raw form to guarantee a clean POST request to Python
+        function submitGuess(value, delay) {
+            setTimeout(() => {
+                const f = document.createElement('form');
+                f.method = 'POST';
+                f.action = '';
+                
+                const i = document.createElement('input');
+                i.type = 'hidden';
+                i.name = 'choice';
+                i.value = value;
+                
+                f.appendChild(i);
+                document.body.appendChild(f);
+                f.submit();
+            }, delay);
+        }
+    });
+</script>
 {% endblock %}
