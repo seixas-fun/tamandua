@@ -15,5 +15,5 @@ class Config:
     GOOGLE_CLIENT_SECRET = os.getenv('GOOGLE_CLIENT_SECRET')
     
     # i18n
-    LANGUAGES = ['en', 'pt']
+    LANGUAGES = ['en', 'pt', 'es']
     BABEL_DEFAULT_LOCALE = 'en'

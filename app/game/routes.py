@@ -7,7 +7,7 @@ from app.extensions import db
 from app.models.game import GameSession
 from app.models.stats import FlagStat
 from app.profile.routes import get_user_tier
-from app.data.flags_data import FLAG_SETS
+from app.data.flags_data import FLAG_SETS_EN, FLAG_SETS_PT
 from app.game import game_bp
 
 @game_bp.route('/')
@@ -17,11 +17,13 @@ def index():
 @game_bp.route('/start/<mode>')
 def setup(mode):
     set_key = request.args.get('set', 'national')
-    if set_key not in FLAG_SETS:
+    
+    # multilangue support
+    if set_key not in FLAG_SETS_EN:
         set_key = 'national'
     
-    session['flag_folder'] = FLAG_SETS[set_key]['folder']
-    chosen_set = FLAG_SETS[set_key]['data']
+    session['flag_folder'] = FLAG_SETS_EN[set_key]['folder']
+    chosen_set = FLAG_SETS_EN[set_key]['data']
 
     indices = list(range(len(chosen_set)))
     random.shuffle(indices)

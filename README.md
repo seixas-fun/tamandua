@@ -15,7 +15,7 @@ Players can choose from three distinct categories to master:
 
 * 🌎 **National Flags:** Every sovereign nation across the globe.
 
-* ⚽ **World Cup**: Teams qualified for the World Cup.
+* ⚽ **World Cup**: Teams qualified for the 2026 World Cup.
 
 * 🇧🇷 **Brazilian States:** The 26 states and the Federal District of Brazil.
 
@@ -49,9 +49,9 @@ Players can choose from three distinct categories to master:
 * [X] Set up project environment and Google OAuth.
 * [X] Build the User Profile dashboard.
 * [X] Implement achievements for the player.
-* [ ] Implement Global Leaderboard.
-* [ ] Split flags_data.py to multilanguage: flags_data_en.py, flags_data_pt.py, ...
-* [ ] Support for multiple languages [*English* (🇬🇧), *Brazilian Portuguese* (🇧🇷), *Spanish* (🇪🇸), *French* (🇫🇷), and *German* (🇩🇪)].
+* [X] Implement Global Leaderboard.
+* [X] Split FLAG_SETS in multilanguage dictionaries.
+* [ ] Support for multiple languages [*English* (🇬🇧), *Brazilian Portuguese* (🇧🇷) and *Spanish* (🇪🇸)].
 * [ ] Create domain.
 * [ ] Deployment online.
 

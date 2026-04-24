@@ -3,7 +3,7 @@ from flask_login import current_user
 import random
 from app.extensions import db
 from app.models.stats import FlagStat
-from app.data.flags_data import FLAG_SETS
+from app.data.flags_data import FLAG_SETS_EN, FLAG_SETS_PT
 from app.game import game_bp 
 
 def update_flag_stat(flag_name, flag_set, is_hit):
@@ -48,7 +48,10 @@ def multiple_mode():
     # 3. Retrieve Current Flag Data
     set_key = session['flag_set']
     current_country_idx = session['indices'][session['current_idx']]
-    correct_country = FLAG_SETS[set_key]['data'][current_country_idx]
+    if session.get('language') == 'pt':
+        correct_country = FLAG_SETS_PT[set_key]['data'][current_country_idx]
+    else:
+        correct_country = FLAG_SETS_EN[set_key]['data'][current_country_idx]
     
     # 4. Handle User Guess (POST)
     if request.method == 'POST':
@@ -68,7 +71,10 @@ def multiple_mode():
         return redirect(url_for('game.multiple_mode'))
 
     # 5. Prepare Multiple Choice Options (GET)
-    all_flags = FLAG_SETS[set_key]['data']
+    if session.get('language') == 'pt':
+        all_flags = FLAG_SETS_PT[set_key]['data']
+    else:
+        all_flags = FLAG_SETS_EN[set_key]['data']
     others = [c['name'] for c in all_flags if c['name'] != correct_country['name']]
     
     # Select 3 random incorrect options and add the correct one

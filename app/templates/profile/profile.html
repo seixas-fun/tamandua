@@ -104,6 +104,7 @@
             </div>
             
             <form id="nickname-form" class="nickname-form" action="{{ url_for('profile.update_nickname') }}" method="POST" style="display: none;">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
                 <input type="text" name="nickname" value="{{ current_user.nickname }}" maxlength="20" required>
                 <button type="submit">{{ _('Save') }}</button>
                 <button type="button" id="cancel-edit-btn" class="cancel-btn">{{ _('Cancel') }}</button>

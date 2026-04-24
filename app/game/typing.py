@@ -4,7 +4,7 @@ from flask_login import current_user
 
 from app.extensions import db
 from app.models.stats import FlagStat
-from app.data.flags_data import FLAG_SETS
+from app.data.flags_data import FLAG_SETS_EN, FLAG_SETS_PT
 
 # Import the blueprint from the game module
 from app.game import game_bp
@@ -60,7 +60,10 @@ def typing_mode():
     # 3. Retrieve Current Flag Data
     set_key = session['flag_set']
     current_country_idx = session['indices'][session['current_idx']]
-    country_data = FLAG_SETS[set_key]['data'][current_country_idx]
+    if session.get('language') == 'pt':
+        country_data = FLAG_SETS_PT[set_key]['data'][current_country_idx]
+    else:
+        country_data = FLAG_SETS_EN[set_key]['data'][current_country_idx]
     
     # 4. Handle User Guess (POST)
     if request.method == 'POST':
@@ -85,7 +88,10 @@ def typing_mode():
             update_flag_stat(country_data['name'], set_key, is_hit=False)
         
     # 5. Calculate total flags for the progress bar
-    total_flags = len(FLAG_SETS[set_key]['data'])
+    if session.get('language') == 'pt':
+        total_flags = len(FLAG_SETS_PT[set_key]['data'])
+    else:
+        total_flags = len(FLAG_SETS_EN[set_key]['data'])
 
     # Note: Ensure typing.html is moved to app/templates/game/typing.html
     return render_template('game/typing.html', 
