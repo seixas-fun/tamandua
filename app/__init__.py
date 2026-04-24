@@ -1,6 +1,6 @@
 from flask import Flask, request, session
 from app.config import Config
-from app.extensions import db, migrate, login_manager, babel, oauth
+from app.extensions import db, migrate, login_manager, babel, csrf, oauth
 from app.auth.routes import auth_bp
 from app.game import game_bp
 from app.profile.routes import profile_bp
@@ -21,6 +21,7 @@ def create_app(config_class=Config):
     login_manager.init_app(app)
     login_manager.login_view = 'auth.login'
     babel.init_app(app, locale_selector=get_locale)
+    csrf.init_app(app)
     oauth.init_app(app)
 
     # Register Blueprints

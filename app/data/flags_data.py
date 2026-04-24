@@ -246,7 +246,7 @@ FLAG_SETS = {
             {"id": 39, "name": "Austria","synonyms": ["austria"], "image": "austria.png"},
             {"id": 40, "name": "Jordan","synonyms": ["jordania","jordan"], "image": "jordan.png"},
             {"id": 41, "name": "Portugal","synonyms": ["portugal"], "image": "portugal.png"},
-            {"id": 42, "name": "Democratic Republic of the Congo","synonyms": ["rd congo", "congo-kinshasa", "democratic republic of the congo"], "image": "democratic_republic_of_the_congo.png"},
+            {"id": 42, "name": "Democratic Republic of the Congo","synonyms": ["rdc", "drc", "congo-kinshasa", "democratic republic of the congo"], "image": "democratic_republic_of_the_congo.png"},
             {"id": 43, "name": "Uzbekistan","synonyms": ["uzbequistao", "uzbekistan"], "image": "uzbekistan.png"},
             {"id": 44, "name": "Colombia","synonyms": ["colombia"], "image": "colombia.png"},
             {"id": 45, "name": "England","synonyms": ["inglaterra", "england"], "image": "england.png"},

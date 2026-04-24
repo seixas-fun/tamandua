@@ -37,16 +37,33 @@ def setup(mode):
     return redirect(url_for(f'game.{mode}_mode'))
 
 
+MIN_SECONDS_PER_FLAG = 0.3
+
 @game_bp.route('/victory')
 def victory():
+    indices = session.get('indices', [])
+    current_idx = session.get('current_idx', 0)
+
+    # Anti-cheat: jogo precisa ter sido completado
+    if not indices or current_idx < len(indices):
+        return redirect(url_for('game.index'))
+
     mode = session.get('game_mode', 'typing')
     flag_set = session.get('flag_set', 'national')
     hits = session.get('score', 0)
     errors = session.get('errors', 0)
     start_time = session.get('start_time', time.time())
     total_time = round(time.time() - start_time, 2)
-    
-    # If user is logged in, save to database
+    total_flags = len(indices)
+
+    # Anti-cheat: hits + errors deve ser igual ao total de bandeiras
+    if hits + errors != total_flags:
+        return redirect(url_for('game.index'))
+
+    # Anti-cheat: tempo mínimo humanamente possível (0.3s por bandeira)
+    if total_time < total_flags * MIN_SECONDS_PER_FLAG:
+        return redirect(url_for('game.index'))
+
     if current_user.is_authenticated:
         game_record = GameSession(
             user_id=current_user.id,
@@ -58,8 +75,10 @@ def victory():
         )
         db.session.add(game_record)
         db.session.commit()
-        # Note: FlagStat updates for misses would happen during the gameplay routes 
-        # (e.g., in multiple_mode POST request).
+
+    # Limpa estado do jogo para evitar reenvio do mesmo resultado
+    for key in ['indices', 'current_idx', 'score', 'errors', 'start_time', 'game_mode', 'flag_set', 'flag_folder']:
+        session.pop(key, None)
 
     return render_template('game/victory.html', mode=mode, time=total_time, hits=hits, errors=errors)
 

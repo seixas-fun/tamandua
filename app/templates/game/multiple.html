@@ -121,12 +121,19 @@
                 const f = document.createElement('form');
                 f.method = 'POST';
                 f.action = '';
-                
+
+                const csrfToken = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+                const c = document.createElement('input');
+                c.type = 'hidden';
+                c.name = 'csrf_token';
+                c.value = csrfToken;
+
                 const i = document.createElement('input');
                 i.type = 'hidden';
                 i.name = 'choice';
                 i.value = value;
-                
+
+                f.appendChild(c);
                 f.appendChild(i);
                 document.body.appendChild(f);
                 f.submit();

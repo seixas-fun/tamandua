@@ -31,7 +31,8 @@
     </div>
 
     <form id="answerForm" method="POST">
-        <input type="text" id="answerInput" name="answer" 
+        <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
+        <input type="text" id="answerInput" name="answer"
                placeholder="{{ _('Type country name...') }}" 
                autocomplete="off" autofocus
                data-answers="{{ country['synonyms'] | join('|') }}|{{ country['name'] }}">
