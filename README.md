@@ -56,6 +56,5 @@ Players can choose from three distinct categories to master:
 * [ ] Deployment online.
 
 ## Contributing
-Contributions are welcome! If you have ideas for new game modes or better flag datasets, feel free to fork the repo and submit a PR.
 
 * Author: [Leandro Seixas Rocha](https://github.com/leseixas)
