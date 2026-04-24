@@ -15,7 +15,7 @@ Players can choose from three distinct categories to master:
 
 * 🌎 **National Flags:** Every sovereign nation across the globe.
 
-* 🏝️ **Dependencies & Territories:** Overseas territories, special administrative regions, and autonomous zones.
+* ⚽ **2026 FIFA World Cup**: Teams qualified for the 2026 FIFA World Cup.
 
 * 🇧🇷 **Brazilian States:** The 26 states and the Federal District of Brazil.
 
@@ -47,13 +47,13 @@ Players can choose from three distinct categories to master:
 * [X] Implement new code structure.
 * [X] Create SQL database with users and gamesessions.
 * [X] Set up project environment and Google OAuth.
-* [ ] Build the User Profile dashboard.
-* [ ] SQLAlchemy para records.
+* [X] Build the User Profile dashboard.
+* [X] Implement achievements for the player.
 * [ ] Implement Global Leaderboard API.
 * [ ] Deployment online.
 * [ ] Support for multiple languages (English and Portuguese).
 * [ ] Writing the documentation (sphinx?).
-* [ ] Implement achievements for the player.
+
 
 ## Contributing
 Contributions are welcome! If you have ideas for new game modes or better flag datasets, feel free to fork the repo and submit a PR.

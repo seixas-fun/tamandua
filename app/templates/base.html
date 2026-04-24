@@ -128,7 +128,7 @@
         </a>
 
         <a href="{{ url_for('game.set_language', lang='pt' if session.get('lang') != 'pt' else 'en') }}" class="nav-btn" style="scale: 1.1;">
-            <i class="fas fa-globe"></i> {{ 'PT' if session.get('lang') != 'pt' else 'EN' }}
+            {{ '🇧🇷 BR' if session.get('lang') != 'pt' else '🇬🇧 EN' }}
         </a>
 
 

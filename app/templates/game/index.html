@@ -38,16 +38,7 @@
 
     <div class="header-section text-center">
         {% if current_user.is_authenticated %}
-            <h3>{{ _('Welcome') }}, {{ current_user.nickname }}!</h3>
-            <p style="font-weight: 600; color: var(--dark); margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;">
-               <i class="fas fa-trophy" style="color: var(--dark);"></i> {{ _('Tier') }}: <span class="tier-badge tier-{{ tier }}"> {{ _(tier) }}</span>
-                <i class="fas fa-stopwatch" style="color: var(--dark);"></i> <span style="color: var(--dark);">{{ _('Best Time:') }}</span>
-                {% if best_time %}
-                    <span style="color: var(--dark);">{{ "%.2f"|format(best_time) }}s</span>
-                {% else %}
-                    <span style="color: #888;">{{ _('No flawless runs yet') }}</span>
-                {% endif %}
-            </p>
+            <h2>{{ _('Welcome') }}, {{ current_user.nickname }}!</h2>
         {% else %}
             <h2>{{ _('Welcome to Tamanduá!') }}</h2>
             <p>{{ _('Test your knowledge of world flags.') }}</p>

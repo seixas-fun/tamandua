@@ -1,3 +1,14 @@
         <button class="set-btn" onclick="selectSet('dependent', this)">
             <img src="{{ url_for('static', filename='icons/dependent_territories.png') }}" alt="Dependent"> {{ _('Dependent Territories (72)') }}
         </button>
+
+    
+        <p style="font-weight: 600; color: var(--dark); margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 8px; flex-wrap: wrap;">
+            <i class="fas fa-trophy" style="color: var(--dark);"></i> {{ _('Tier') }}: <span class="tier-badge tier-{{ tier }}"> {{ _(tier) }}</span>
+            <i class="fas fa-stopwatch" style="color: var(--dark);"></i> <span style="color: var(--dark);">{{ _('Best Time:') }}</span>
+            {% if best_time %}
+                <span style="color: var(--dark);">{{ "%.2f"|format(best_time) }}s</span>
+            {% else %}
+                <span style="color: #888;">{{ _('No flawless runs yet') }}</span>
+            {% endif %}
+        </p>
