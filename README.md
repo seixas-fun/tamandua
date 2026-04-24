@@ -28,7 +28,7 @@ Players can choose from three distinct categories to master:
 
 * **Typing (HARD):**
   - The ultimate challenge: no hints, just a text box.
-  - Bilingual Support: Accepts flag names in both **English** (🇬🇧/🇺🇸) and **Portuguese** (🇵🇹/🇧🇷).
+  - Multilanguage Support.
   - Timed Performance: A global timer tracks how long it takes you to name all flags in the selected set. Every second counts!
 
 ## User Experience & Social
@@ -49,11 +49,11 @@ Players can choose from three distinct categories to master:
 * [X] Set up project environment and Google OAuth.
 * [X] Build the User Profile dashboard.
 * [X] Implement achievements for the player.
-* [ ] Implement Global Leaderboard API.
+* [ ] Implement Global Leaderboard.
+* [ ] Split flags_data.py to multilanguage: flags_data_en.py, flags_data_pt.py, ...
+* [ ] Support for multiple languages [*English* (🇬🇧), *Brazilian Portuguese* (🇧🇷), *Spanish* (🇪🇸), *French* (🇫🇷), and *German* (🇩🇪)].
+* [ ] Create domain.
 * [ ] Deployment online.
-* [ ] Support for multiple languages (English and Portuguese).
-* [ ] Writing the documentation (sphinx?).
-
 
 ## Contributing
 Contributions are welcome! If you have ideas for new game modes or better flag datasets, feel free to fork the repo and submit a PR.
