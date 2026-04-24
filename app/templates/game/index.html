@@ -93,7 +93,7 @@
 
 <script>
     let selectedSet = 'national';
-    const isAuthenticated = {{ 'true' if current_user.is_authenticated else 'false' }};
+    const isAuthenticated = {{ 'true' if current_user.is_authenticated else 'false' | safe }};
     const userNickname = "{{ current_user.nickname if current_user.is_authenticated else '' }}";
 
     function selectSet(setId, btn) {
