@@ -47,13 +47,7 @@ def dashboard():
     most_missed = FlagStat.query.filter_by(user_id=current_user.id).order_by(desc(FlagStat.misses)).limit(5).all()
     most_hit = FlagStat.query.filter_by(user_id=current_user.id).order_by(desc(FlagStat.hits)).limit(5).all()
 
-    # 3. Achievements
-    achievements = {
-        'played_choice': GameSession.query.filter_by(user_id=current_user.id, mode='multiple').first() is not None,
-        'played_typing': GameSession.query.filter_by(user_id=current_user.id, mode='typing').first() is not None
-    }
-
-    # 4. Calculate all 6 Ranking Tiers
+    # 3. Calculate all 6 Ranking Tiers
     modes = ['multiple', 'typing']
     sets = ['national', 'world_cup', 'brazil_states']
     
@@ -63,24 +57,44 @@ def dashboard():
         for s in sets:
             user_tiers[m][s] = get_user_tier(current_user.id, m, s)
 
-    # 5. Graph Data
-    weekly_stats = db.session.query(
-        func.date_trunc('week', GameSession.completed_at).label('week'),
-        func.min(GameSession.time_taken).label('best_time')
-    ).filter(
-        GameSession.user_id == current_user.id, 
-        GameSession.mode == 'typing',
-        GameSession.flag_set == 'national'
-    ).group_by('week').order_by('week').all()
+    # 4. Achievements (Moved below rankings so we can check for Diamond)
+    has_diamond = any(tier == 'Diamond' for mode in user_tiers.values() for tier in mode.values())
 
-    chart_labels = [stat.week.strftime('%Y-%m-%d') for stat in weekly_stats]
-    chart_data = [round(stat.best_time, 2) for stat in weekly_stats]
+    achievements = {
+        'played_choice': GameSession.query.filter_by(user_id=current_user.id, mode='multiple').first() is not None,
+        'played_typing': GameSession.query.filter_by(user_id=current_user.id, mode='typing').first() is not None,
+        'played_national': GameSession.query.filter_by(user_id=current_user.id, flag_set='national').first() is not None,
+        'played_world_cup': GameSession.query.filter_by(user_id=current_user.id, flag_set='world_cup').first() is not None,
+        'played_brazil': GameSession.query.filter_by(user_id=current_user.id, flag_set='brazil_states').first() is not None,
+        'flawless_choice': GameSession.query.filter_by(user_id=current_user.id, mode='multiple', errors=0).first() is not None,
+        # Check for 0 hits and more than 0 errors (ensures they actually played and didn't just quit instantly)
+        'all_wrong_choice': GameSession.query.filter(GameSession.user_id == current_user.id, GameSession.mode == 'multiple', GameSession.hits == 0, GameSession.errors > 0).first() is not None,
+        # Time taken is strictly under 10 mins (600s) and 0 errors
+        'speedrun_national': GameSession.query.filter(GameSession.user_id == current_user.id, GameSession.mode == 'typing', GameSession.flag_set == 'national', GameSession.errors == 0, GameSession.time_taken <= 600).first() is not None,
+        # Time taken is strictly under 2 mins (120s) and 0 errors
+        'speedrun_states': GameSession.query.filter(GameSession.user_id == current_user.id, GameSession.mode == 'typing', GameSession.flag_set == 'brazil_states', GameSession.errors == 0, GameSession.time_taken <= 120).first() is not None,
+        'diamond_rank': has_diamond
+    }
+
+    # 5. Graph Data (Evolution by Attempt for all modes/sets)
+    all_sessions = GameSession.query.filter_by(user_id=current_user.id).order_by(GameSession.id.asc()).all()
+
+    evolution_data = {
+        'multiple': {'national': [], 'world_cup': [], 'brazil_states': []},
+        'typing': {'national': [], 'world_cup': [], 'brazil_states': []}
+    }
+
+    for session in all_sessions:
+        m = session.mode
+        s = session.flag_set
+        if m in evolution_data and s in evolution_data[m]:
+            evolution_data[m][s].append(round(session.time_taken, 2))
 
     return render_template('profile/profile.html', 
         total_games=total_games, accuracy=accuracy,
         missed=most_missed, hit=most_hit,
         achievements=achievements, user_tiers=user_tiers, 
-        chart_labels=chart_labels, chart_data=chart_data
+        evolution_data=evolution_data
     )
 
 @profile_bp.route('/update_nickname', methods=['POST'])

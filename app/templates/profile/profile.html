@@ -23,7 +23,7 @@
     .flash.error { background: #f8d7da; color: #721c24; }
 
     /* Dashboard Layout */
-    .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 20px; }
+    .dashboard-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(450px, 1fr)); gap: 20px; }
     .dash-section { background: rgba(0,0,0,0.02); padding: 20px; border-radius: 15px; border: 1px solid rgba(0,0,0,0.05);}
     .dash-section h3 { margin-top: 0; color: var(--dark); font-size: 1.2rem; display: flex; align-items: center; gap: 10px; margin-bottom: 15px;}
     
@@ -48,6 +48,11 @@
 
     /* Chart Container */
     .chart-container { position: relative; height: 250px; width: 100%; margin-top: 20px;}
+
+    /* Chart Filters */
+    .chart-filters { display: flex; gap: 10px; }
+    .chart-filters select { padding: 6px 12px; border-radius: 8px; border: 2px solid #edf2f7; background: white; color: var(--dark); font-weight: bold; font-size: 0.85rem; outline: none; cursor: pointer; transition: 0.2s;}
+    .chart-filters select:focus { border-color: var(--primary); }
 
     /* Inline Edit Buttons */
     .edit-icon-btn {
@@ -135,7 +140,7 @@
                         <span class="tier-badge tier-{{ user_tiers['multiple']['world_cup'] }}" style="display: block; margin-top: 5px;">{{ _(user_tiers['multiple']['world_cup']) }}</span>
                     </div>
                     <div class="stat-box" style="flex: 1; padding: 10px;">
-                        <span class="lbl">{{ _('States (BR)') }}</span>
+                        <span class="lbl">{{ _('Brazilian States') }}</span>
                         <span class="tier-badge tier-{{ user_tiers['multiple']['brazil_states'] }}" style="display: block; margin-top: 5px;">{{ _(user_tiers['multiple']['brazil_states']) }}</span>
                     </div>
                 </div>
@@ -151,33 +156,102 @@
                         <span class="tier-badge tier-{{ user_tiers['typing']['world_cup'] }}" style="display: block; margin-top: 5px;">{{ _(user_tiers['typing']['world_cup']) }}</span>
                     </div>
                     <div class="stat-box" style="flex: 1; padding: 10px;">
-                        <span class="lbl">{{ _('States (BR)') }}</span>
+                        <span class="lbl">{{ _('Brazilian States') }}</span>
                         <span class="tier-badge tier-{{ user_tiers['typing']['brazil_states'] }}" style="display: block; margin-top: 5px;">{{ _(user_tiers['typing']['brazil_states']) }}</span>
                     </div>
                 </div>
                 <p style="font-size: 0.8rem; color: #aaa; margin-top: 15px; text-align: center;"><i class="fas fa-info-circle"></i> {{ _('Only 100%% correct games qualify for a ranking tier.') }}</p>
             </div>
 
-            <div class="dash-section">
-                <h3><i class="fas fa-chart-line"></i> {{ _('Evolution (Best Times by Week)') }}</h3>
-                {% if chart_data %}
-                <div class="chart-container">
-                    <canvas id="evolutionChart"></canvas>
+        <div class="dash-section">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; flex-wrap: wrap; gap: 10px;">
+                <h3 style="margin: 0;"><i class="fas fa-chart-line"></i> {{ _('Evolution') }}</h3>
+                <div class="chart-filters">
+                    <select id="chart-mode">
+                        <option value="typing">{{ _('Typing') }}</option>
+                        <option value="multiple">{{ _('Choice') }}</option>
+                    </select>
+                    <select id="chart-set">
+                        <option value="national">{{ _('National') }}</option>
+                        <option value="world_cup">{{ _('World Cup') }}</option>
+                        <option value="brazil_states">{{ _('Brazilian States') }}</option>
+                    </select>
                 </div>
-                {% else %}
-                <p style="color: #888; font-size: 0.9rem;">{{ _('Play more Typing game mode to see your evolution graph!') }}</p>
-                {% endif %}
             </div>
+            
+            <div class="chart-container" id="chart-wrapper">
+                <canvas id="evolutionChart"></canvas>
+            </div>
+            <p id="no-chart-data" style="color: #888; font-size: 0.9rem; text-align: center; display: none; padding: 40px 0;">
+                {{ _('Play more games in this category to see your evolution!') }}
+            </p>
+        </div>
 
-            <div class="dash-section">
-                <h3><i class="fas fa-medal"></i> {{ _('Achievements') }}</h3>
+        <div class="dash-section">
+                <h3>
+                    <i class="fas fa-medal"></i> {{ _('Achievements') }}
+                    <span style="margin-left: 5px;">
+                        ({{ achievements.values() | select | list | length }} / 10)
+                    </span>
+                </h3>
                 <div class="achievements">
-                    <div class="achievement-badge {% if achievements.played_choice %}earned{% endif %}">
-                        <i class="fas fa-hand-point-up"></i> {{ _('Choice Explorer') }}
-                    </div>
-                    <div class="achievement-badge {% if achievements.played_typing %}earned{% endif %}">
-                        <i class="fas fa-keyboard"></i> {{ _('Keyboard Warrior') }}
-                    </div>
+                    {% set earned_any = false %}
+
+                    {% if achievements.played_choice %}
+                        {% set earned_any = true %}
+                        <div class="achievement-badge earned" title="{{ _('Finished a game in Choice mode') }}"><i class="fas fa-hand-pointer"></i> {{ _('Choice Explorer') }}</div>
+                    {% endif %}
+
+                    {% if achievements.played_typing %}
+                        {% set earned_any = true %}
+                        <div class="achievement-badge earned" title="{{ _('Finished a game in Typing mode') }}"><i class="fas fa-keyboard"></i> {{ _('Keyboard Warrior') }}</div>
+                    {% endif %}
+
+                    {% if achievements.played_national %}
+                        {% set earned_any = true %}
+                        <div class="achievement-badge earned" title="{{ _('Finished a game with National flags') }}"><i class="fas fa-globe-americas"></i> {{ _('World Traveler') }}</div>
+                    {% endif %}
+
+                    {% if achievements.played_world_cup %}
+                        {% set earned_any = true %}
+                        <div class="achievement-badge earned" title="{{ _('Finished a game with World Cup flags') }}"><i class="fas fa-futbol"></i> {{ _('Football Fanatic') }}</div>
+                    {% endif %}
+
+                    {% if achievements.played_brazil %}
+                        {% set earned_any = true %}
+                        <div class="achievement-badge earned" title="{{ _('Finished a game with Brazilian State flags') }}"><i class="fas fa-map-marker-alt"></i> {{ _('Brazilian Explorer') }}</div>
+                    {% endif %}
+
+                    {% if achievements.flawless_choice %}
+                        {% set earned_any = true %}
+                        <div class="achievement-badge earned" title="{{ _('Finished Choice mode with 100%% accuracy') }}"><i class="fas fa-bullseye"></i> {{ _('Sharpshooter') }}</div>
+                    {% endif %}
+
+                    {% if achievements.all_wrong_choice %}
+                        {% set earned_any = true %}
+                        <div class="achievement-badge earned" title="{{ _('Got every single flag wrong in Choice mode') }}"><i class="fas fa-dizzy"></i> {{ _('Critical Failure') }}</div>
+                    {% endif %}
+
+                    {% if achievements.speedrun_national %}
+                        {% set earned_any = true %}
+                        <div class="achievement-badge earned" title="{{ _('Flawless National Typing run under 10 minutes') }}"><i class="fas fa-stopwatch"></i> {{ _('Global Speedster') }}</div>
+                    {% endif %}
+
+                    {% if achievements.speedrun_states %}
+                        {% set earned_any = true %}
+                        <div class="achievement-badge earned" title="{{ _('Flawless State Typing run under 2 minutes') }}"><i class="fas fa-bolt"></i> {{ _('States Speedster') }}</div>
+                    {% endif %}
+
+                    {% if achievements.diamond_rank %}
+                        {% set earned_any = true %}
+                        <div class="achievement-badge earned" title="{{ _('Obtained a Diamond Ranking') }}"><i class="fas fa-gem"></i> {{ _('Diamond Elite') }}</div>
+                    {% endif %}
+
+                    {% if not earned_any %}
+                        <p style="color: #888; font-size: 0.9rem; margin-top: 10px; font-style: italic;">
+                            {{ _('Keep playing games to uncover hidden achievements!') }}
+                        </p>
+                    {% endif %}
                 </div>
             </div>
         </div>
@@ -215,38 +289,100 @@
     </div>
 </div>
 
-{% if chart_data %}
+{% if evolution_data %}
 <script>
-    const ctx = document.getElementById('evolutionChart').getContext('2d');
-    const evolutionChart = new Chart(ctx, {
-        type: 'line',
-        data: {
-            labels: {{ chart_labels | safe }},
-            datasets: [{
-                label: '{{ _("Best Time (Seconds)") }}',
-                data: {{ chart_data | safe }},
-                borderColor: '#61b4e1',
-                backgroundColor: 'rgba(97, 180, 225, 0.2)',
-                borderWidth: 3,
-                pointBackgroundColor: '#1b2c5e',
-                pointRadius: 4,
-                fill: true,
-                tension: 0.3
-            }]
-        },
-        options: {
-            responsive: true,
-            maintainAspectRatio: false,
-            scales: {
-                y: { beginAtZero: false, grid: { color: '#eee' } },
-                x: { grid: { display: false } }
-            },
-            plugins: {
-                legend: { display: false }
-            }
+    // Injects the Python dictionary cleanly into Javascript
+    const evolutionData = {{ evolution_data | tojson | safe }};
+    
+    const modeSelect = document.getElementById('chart-mode');
+    const setSelect = document.getElementById('chart-set');
+    const chartWrapper = document.getElementById('chart-wrapper');
+    const noDataMsg = document.getElementById('no-chart-data');
+    
+    let evolutionChart;
+    
+    function updateChart() {
+        const mode = modeSelect.value;
+        const set = setSelect.value;
+        const dataPoints = evolutionData[mode][set];
+        
+        // If there are no games for this specific combo, hide chart and show message
+        if (!dataPoints || dataPoints.length === 0) {
+            chartWrapper.style.display = 'none';
+            noDataMsg.style.display = 'block';
+            return;
         }
-    });
+        
+        chartWrapper.style.display = 'block';
+        noDataMsg.style.display = 'none';
+        
+        // Generate chronological labels: "Attempt 1", "Attempt 2", etc.
+        const labels = dataPoints.map((_, index) => `${index + 1}`);
+        
+        // Destroy the old chart before drawing the new one
+        if (evolutionChart) {
+            evolutionChart.destroy();
+        }
+        
+        const ctx = document.getElementById('evolutionChart').getContext('2d');
+        evolutionChart = new Chart(ctx, {
+            type: 'line',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: '{{ _("Time (Seconds)") }}',
+                    data: dataPoints,
+                    borderColor: '#61b4e1',
+                    backgroundColor: 'rgba(97, 180, 225, 0.2)',
+                    borderWidth: 3,
+                    pointBackgroundColor: '#1b2c5e',
+                    pointRadius: 4,
+                    fill: true,
+                    tension: 0.3
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: { 
+                        beginAtZero: true, 
+                        grid: { color: '#eee' },
+                        title: {
+                            display: true,
+                            text: 'Time (s)',
+                            font: {
+                                weight: 'bold'
+                            }
+                        }
+                    },
+                    x: { 
+                        grid: { display: false }, 
+                        ticks: { maxTicksLimit: 10 },
+                        title: {
+                            display: true,
+                            text: 'Run',
+                            font: {
+                                weight: 'bold'
+                            }
+                        }
+                    }
+                },
+                plugins: {
+                    legend: { display: false }
+                }
+            }
+        });
+    }
+    
+    // Attach event listeners to the dropdown menus
+    modeSelect.addEventListener('change', updateChart);
+    setSelect.addEventListener('change', updateChart);
+    
+    // Draw the chart on initial page load
+    updateChart();
 </script>
+
 {% endif %}
 
 <script>
