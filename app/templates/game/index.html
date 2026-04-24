@@ -39,6 +39,7 @@
     <div class="header-section text-center">
         {% if current_user.is_authenticated %}
             <h2>{{ _('Welcome') }}, {{ current_user.nickname }}!</h2>
+            <p>{{ _('Ready to test your knowledge of world flags?') }}</p>
         {% else %}
             <h2>{{ _('Welcome to Tamanduá!') }}</h2>
             <p>{{ _('Test your knowledge of world flags.') }}</p>
@@ -53,7 +54,7 @@
             <img src="{{ url_for('static', filename='icons/national.png') }}" alt="National"> {{ _('National Flags (195)') }}
         </button>
         <button class="set-btn" onclick="selectSet('world_cup', this)">
-            <img src="{{ url_for('static', filename='icons/ball.png') }}" alt="2026 FIFA World Cup"> {{ _('2026 FIFA World Cup (48)') }}
+            <img src="{{ url_for('static', filename='icons/ball.png') }}" alt="World Cup"> {{ _('World Cup (48)') }}
         </button>
         <button class="set-btn" onclick="selectSet('brazil_states', this)">
             <img src="{{ url_for('static', filename='icons/brazil.png') }}" alt="Brazil"> {{ _('Brazilian States (27)') }}

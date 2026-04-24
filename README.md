@@ -15,7 +15,7 @@ Players can choose from three distinct categories to master:
 
 * 🌎 **National Flags:** Every sovereign nation across the globe.
 
-* ⚽ **2026 FIFA World Cup**: Teams qualified for the 2026 FIFA World Cup.
+* ⚽ **World Cup**: Teams qualified for the World Cup.
 
 * 🇧🇷 **Brazilian States:** The 26 states and the Federal District of Brazil.
 

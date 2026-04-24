@@ -1,8 +1,9 @@
 from flask import Blueprint, render_template, request, flash, redirect, url_for
 from flask_login import login_required, current_user
-from flask_babel import _
 from sqlalchemy import desc, func
 from sqlalchemy.exc import IntegrityError
+from flask_babel import _
+
 from app.extensions import db
 from app.models.stats import FlagStat
 from app.models.game import GameSession
@@ -10,15 +11,15 @@ from app.models.user import User
 
 profile_bp = Blueprint('profile', __name__)
 
-def get_user_tier(user_id):
-    """Calculates the user's current global tier based on 15-minute Typing mode runs."""
+def get_user_tier(user_id, mode, flag_set):
+    """Calculates the user's quartile tier for a specific mode and set based on flawless runs."""
     valid_runs = db.session.query(
         GameSession.user_id,
         func.min(GameSession.time_taken).label('best_time')
     ).filter(
-        GameSession.mode == 'typing',
-        GameSession.time_taken <= 900,  # 15 minutes
-        GameSession.errors == 0
+        GameSession.mode == mode,
+        GameSession.flag_set == flag_set,
+        GameSession.errors == 0  # Only flawless runs count for the ranking
     ).group_by(GameSession.user_id).subquery()
     
     ranked_query = db.session.query(
@@ -46,35 +47,39 @@ def dashboard():
     most_missed = FlagStat.query.filter_by(user_id=current_user.id).order_by(desc(FlagStat.misses)).limit(5).all()
     most_hit = FlagStat.query.filter_by(user_id=current_user.id).order_by(desc(FlagStat.hits)).limit(5).all()
 
-    # 3. Achievements (Simple boolean checks)
+    # 3. Achievements
     achievements = {
         'played_choice': GameSession.query.filter_by(user_id=current_user.id, mode='multiple').first() is not None,
         'played_typing': GameSession.query.filter_by(user_id=current_user.id, mode='typing').first() is not None
     }
 
-    # 4. Ranking Tier
-    tier = get_user_tier(current_user.id)
+    # 4. Calculate all 6 Ranking Tiers
+    modes = ['multiple', 'typing']
+    sets = ['national', 'world_cup', 'brazil_states']
+    
+    user_tiers = {}
+    for m in modes:
+        user_tiers[m] = {}
+        for s in sets:
+            user_tiers[m][s] = get_user_tier(current_user.id, m, s)
 
-    # 5. Graph Data (Evolution per week based on Typing Mode best times)
+    # 5. Graph Data
     weekly_stats = db.session.query(
         func.date_trunc('week', GameSession.completed_at).label('week'),
         func.min(GameSession.time_taken).label('best_time')
     ).filter(
         GameSession.user_id == current_user.id, 
-        GameSession.mode == 'typing'
+        GameSession.mode == 'typing',
+        GameSession.flag_set == 'national'
     ).group_by('week').order_by('week').all()
 
     chart_labels = [stat.week.strftime('%Y-%m-%d') for stat in weekly_stats]
     chart_data = [round(stat.best_time, 2) for stat in weekly_stats]
 
-    # 6. Recent History
-    recent_games = GameSession.query.filter_by(user_id=current_user.id).order_by(desc(GameSession.completed_at)).limit(10).all()
-
     return render_template('profile/profile.html', 
         total_games=total_games, accuracy=accuracy,
         missed=most_missed, hit=most_hit,
-        achievements=achievements, tier=tier, 
-        history=recent_games,
+        achievements=achievements, user_tiers=user_tiers, 
         chart_labels=chart_labels, chart_data=chart_data
     )
 

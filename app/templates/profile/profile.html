@@ -96,10 +96,7 @@
                     <i class="fas fa-pencil-alt"></i>
                     </button>
                 </h1>
-            <p style="font-weight: 600; color: var(--dark); margin-top: 20px; margin-bottom: 20px; display: flex; align-items: left; justify-content: left; gap: 8px; flex-wrap: wrap;">
-            <i class="fas fa-trophy" style="text-align: left; color: var(--dark);  font-size: 1.1rem;"></i>
-            <span style="font-size: 1.1rem;"> {{ _('Tier') }}: <span class="tier-badge tier-{{ tier }}">{{ _(tier) }}</span></span>
-            </p></div>
+            </div>
             
             <form id="nickname-form" class="nickname-form" action="{{ url_for('profile.update_nickname') }}" method="POST" style="display: none;">
                 <input type="text" name="nickname" value="{{ current_user.nickname }}" maxlength="20" required>
@@ -123,6 +120,44 @@
     <div class="dashboard-grid">
         
         <div style="display: flex; flex-direction: column; gap: 20px;">
+            
+            <div class="dash-section">
+                <h3><i class="fas fa-trophy"></i> {{ _('Rankings (Flawless Runs)') }}</h3>
+                
+                <h4 style="color: #888; text-transform: uppercase; font-size: 0.85rem; margin: 15px 0 10px 0;">{{ _('Choice Mode') }}</h4>
+                <div style="display: flex; gap: 10px; margin-bottom: 20px;">
+                    <div class="stat-box" style="flex: 1; padding: 10px;">
+                        <span class="lbl">{{ _('National') }}</span>
+                        <span class="tier-badge tier-{{ user_tiers['multiple']['national'] }}" style="display: block; margin-top: 5px;">{{ _(user_tiers['multiple']['national']) }}</span>
+                    </div>
+                    <div class="stat-box" style="flex: 1; padding: 10px;">
+                        <span class="lbl">{{ _('World Cup') }}</span>
+                        <span class="tier-badge tier-{{ user_tiers['multiple']['world_cup'] }}" style="display: block; margin-top: 5px;">{{ _(user_tiers['multiple']['world_cup']) }}</span>
+                    </div>
+                    <div class="stat-box" style="flex: 1; padding: 10px;">
+                        <span class="lbl">{{ _('States (BR)') }}</span>
+                        <span class="tier-badge tier-{{ user_tiers['multiple']['brazil_states'] }}" style="display: block; margin-top: 5px;">{{ _(user_tiers['multiple']['brazil_states']) }}</span>
+                    </div>
+                </div>
+
+                <h4 style="color: #888; text-transform: uppercase; font-size: 0.85rem; margin: 15px 0 10px 0;">{{ _('Typing Mode') }}</h4>
+                <div style="display: flex; gap: 10px;">
+                    <div class="stat-box" style="flex: 1; padding: 10px;">
+                        <span class="lbl">{{ _('National') }}</span>
+                        <span class="tier-badge tier-{{ user_tiers['typing']['national'] }}" style="display: block; margin-top: 5px;">{{ _(user_tiers['typing']['national']) }}</span>
+                    </div>
+                    <div class="stat-box" style="flex: 1; padding: 10px;">
+                        <span class="lbl">{{ _('World Cup') }}</span>
+                        <span class="tier-badge tier-{{ user_tiers['typing']['world_cup'] }}" style="display: block; margin-top: 5px;">{{ _(user_tiers['typing']['world_cup']) }}</span>
+                    </div>
+                    <div class="stat-box" style="flex: 1; padding: 10px;">
+                        <span class="lbl">{{ _('States (BR)') }}</span>
+                        <span class="tier-badge tier-{{ user_tiers['typing']['brazil_states'] }}" style="display: block; margin-top: 5px;">{{ _(user_tiers['typing']['brazil_states']) }}</span>
+                    </div>
+                </div>
+                <p style="font-size: 0.8rem; color: #aaa; margin-top: 15px; text-align: center;"><i class="fas fa-info-circle"></i> {{ _('Only 100%% correct games qualify for a ranking tier.') }}</p>
+            </div>
+
             <div class="dash-section">
                 <h3><i class="fas fa-chart-line"></i> {{ _('Evolution (Best Times by Week)') }}</h3>
                 {% if chart_data %}
@@ -130,7 +165,7 @@
                     <canvas id="evolutionChart"></canvas>
                 </div>
                 {% else %}
-                <p style="color: #888; font-size: 0.9rem;">{{ _('Play more Typing Blitz games to see your evolution graph!') }}</p>
+                <p style="color: #888; font-size: 0.9rem;">{{ _('Play more Typing game mode to see your evolution graph!') }}</p>
                 {% endif %}
             </div>
 
@@ -234,5 +269,4 @@
         });
     });
 </script>
-
 {% endblock %}
