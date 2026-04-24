@@ -47,6 +47,6 @@
     {% endif %}
 
     <a href="{{ url_for('game.index') }}" class="btn"><i class="fas fa-home"></i> {{ _('Back to Menu') }}</a>
-    <a href="{{ url_for('ranking.typing_ranking', flag_set=session.get('flag_set', 'national')) }}" class="btn" style="background: var(--primary); color: var(--dark);"><i class="fas fa-trophy"></i> {{ _('View Rankings') }}</a>
+    <a href="{{ url_for('ranking.index', flag_set=session.get('flag_set', 'national')) }}" class="btn" style="background: var(--primary); color: var(--dark);"><i class="fas fa-trophy"></i> {{ _('View Rankings') }}</a>
 </div>
 {% endblock %}

@@ -1,0 +1,178 @@
+{% extends "base.html" %}
+
+{% block extra_css %}
+<style>
+    .ranking-card { max-width: 800px; margin: 40px auto; padding: 30px; text-align: center; }
+    h1 { font-weight: 800; font-size: 2.5rem; color: var(--dark); margin-bottom: 5px; }
+    .subtitle { color: #888; font-weight: 600; margin-bottom: 25px; }
+
+    /* Filter Controls */
+    .filter-group { display: flex; justify-content: center; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+    .filter-btn { padding: 10px 20px; border-radius: 12px; border: 2px solid #edf2f7; background: white; color: #888; font-weight: bold; cursor: pointer; transition: 0.2s; font-size: 0.9rem; }
+    .filter-btn:hover { border-color: #ccc; }
+    .filter-btn.active { background: var(--primary); color: var(--dark); border-color: var(--primary); }
+    .filter-btn img { height: 1.2rem; margin-right: 5px; vertical-align: middle; }
+
+    /* Table Styles */
+    .board-container { display: none; animation: fadeIn 0.3s ease-in; }
+    .board-container.active { display: block; }
+    
+    .ranking-table { width: 100%; border-collapse: separate; border-spacing: 0 8px; text-align: left; }
+    .ranking-table th { color: #aaa; font-size: 0.8rem; text-transform: uppercase; padding: 0 15px 5px 15px; }
+    .ranking-table td { background: white; padding: 12px 15px; }
+    .ranking-table tr td:first-child { border-top-left-radius: 12px; border-bottom-left-radius: 12px; font-weight: bold; width: 60px; text-align: center; color: #888;}
+    .ranking-table tr td:last-child { border-top-right-radius: 12px; border-bottom-right-radius: 12px; font-weight: 800; color: var(--dark); text-align: right; }
+    
+    .player-cell { display: flex; align-items: center; gap: 12px; font-weight: 700; color: var(--dark); }
+    .player-avatar { width: 35px; height: 35px; border-radius: 50%; border: 2px solid #eee; }
+
+    /* Medal Colors */
+    .rank-1 td { background: #fffdf0; }
+    .medal-1 { color: #f1c40f; font-size: 1.2rem; }
+    .rank-2 td { background: #f8f9fa; }
+    .medal-2 { color: #bdc3c7; font-size: 1.1rem; }
+    .rank-3 td { background: #fdfaf7; }
+    .medal-3 { color: #cd7f32; font-size: 1.1rem; }
+
+    /* Current User Highlight Banner */
+    .user-rank-banner {
+        display: flex; justify-content: space-between; align-items: center;
+        background: var(--dark); color: white;
+        padding: 12px 20px; border-radius: 12px; margin-top: 20px;
+        box-shadow: 0 4px 15px rgba(27, 44, 94, 0.2);
+    }
+    .user-rank-banner .ur-left { display: flex; align-items: center; gap: 15px; font-weight: 700; }
+    .user-rank-banner .ur-right { font-weight: 800; }
+    .ur-rank { font-size: 1.1rem; color: var(--primary); width: 30px; text-align: center; }
+
+    @keyframes fadeIn { from { opacity: 0; transform: translateY(5px); } to { opacity: 1; transform: translateY(0); } }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="glass-card ranking-card">
+    <h1><i class="fas fa-trophy"></i> {{ _('Global Leaderboard') }}</h1>
+    <p class="subtitle">{{ _('Top 10 fastest flawless runs by category.') }}</p>
+
+    <div class="filter-group" id="mode-filters">
+        <button class="filter-btn active" data-mode="multiple"><i class="fas fa-hand-pointer"></i> {{ _('Choice Mode') }}</button>
+        <button class="filter-btn" data-mode="typing"><i class="fas fa-keyboard"></i> {{ _('Typing Mode') }}</button>
+    </div>
+
+    <div class="filter-group" id="set-filters">
+        <button class="filter-btn active" data-set="national"><img src="{{ url_for('static', filename='icons/national.png') }}" alt="National"> {{ _('National') }}</button>
+        <button class="filter-btn" data-set="world_cup"><img src="{{ url_for('static', filename='icons/player.png') }}" alt="World Cup"> {{ _('World Cup') }}</button>
+        <button class="filter-btn" data-set="brazil_states"><img src="{{ url_for('static', filename='icons/brazil.png') }}" alt="Brazilian States"> {{ _('Brazilian States') }}</button>
+    </div>
+
+    <div style="height: 20px;"></div> {% for mode in ['multiple', 'typing'] %}
+        {% for set in ['national', 'world_cup', 'brazil_states'] %}
+            
+            <div id="board-{{ mode }}-{{ set }}" class="board-container {% if mode == 'multiple' and set == 'national' %}active{% endif %}">
+                
+                {% if leaderboards[mode][set]['top_players'] %}
+                    <table class="ranking-table">
+                        <thead>
+                            <tr>
+                                <th style="text-align: center;">{{ _('Rank') }}</th>
+                                <th>{{ _('Player') }}</th>
+                                <th style="text-align: right;"><i class="fas fa-stopwatch"></i> {{ _('Time') }}</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for player in leaderboards[mode][set]['top_players'] %}
+                            <tr class="rank-{{ player.rank }}">
+                                <td>
+                                    {% if player.rank == 1 %}<i class="fas fa-medal medal-1"></i>
+                                    {% elif player.rank == 2 %}<i class="fas fa-medal medal-2"></i>
+                                    {% elif player.rank == 3 %}<i class="fas fa-medal medal-3"></i>
+                                    {% else %}#{{ player.rank }}
+                                    {% endif %}
+                                </td>
+                                <td>
+                                    <div class="player-cell">
+                                        <img src="{{ player.avatar }}" alt="Avatar" class="player-avatar">
+                                        {{ player.nickname }}
+                                    </div>
+                                </td>
+                                <td>{{ "%.2f"|format(player.best_time) }}s</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% else %}
+                    <div style="padding: 40px; color: #888; font-weight: 600; background: white; border-radius: 12px;">
+                        <i class="fas fa-ghost" style="font-size: 2rem; margin-bottom: 10px; color: #ccc;"></i><br>
+                        {{ _('No flawless runs recorded yet. Be the first!') }}
+                    </div>
+                {% endif %}
+
+                <h2>{{ _('Your position') }}</h2>
+                {% if current_user.is_authenticated %}
+                    <div class="user-rank-banner">
+                        {% set u_data = leaderboards[mode][set]['user_rank'] %}
+                        
+                        {% if u_data %}
+                            <div class="ur-left">
+                                <span class="ur-rank">#{{ u_data.rank }}</span>
+                                <img src="{{ current_user.avatar }}" class="player-avatar">
+                                {{ current_user.nickname }}
+                            </div>
+                            <div class="ur-right">
+                                {{ "%.2f"|format(u_data.best_time) }}s
+                            </div>
+                        {% else %}
+                            <div class="ur-left">
+                                <span class="ur-rank">-</span>
+                                <img src="{{ current_user.avatar }}" class="player-avatar">
+                                {{ current_user.nickname }}
+                            </div>
+                            <div class="ur-right" style="color: #888; font-size: 0.85rem; font-weight: 600;">
+                                {{ _('Unranked (Score 100%% to qualify)') }}
+                            </div>
+                        {% endif %}
+                    </div>
+                {% endif %}
+
+            </div>
+
+        {% endfor %}
+    {% endfor %}
+
+</div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        let currentMode = 'multiple';
+        let currentSet = 'national';
+
+        const modeBtns = document.querySelectorAll('#mode-filters .filter-btn');
+        const setBtns = document.querySelectorAll('#set-filters .filter-btn');
+        const boards = document.querySelectorAll('.board-container');
+
+        function updateBoard() {
+            boards.forEach(b => b.classList.remove('active'));
+            const target = document.getElementById(`board-${currentMode}-${currentSet}`);
+            if (target) target.classList.add('active');
+        }
+
+        modeBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                modeBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentMode = this.getAttribute('data-mode');
+                updateBoard();
+            });
+        });
+
+        setBtns.forEach(btn => {
+            btn.addEventListener('click', function() {
+                setBtns.forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+                currentSet = this.getAttribute('data-set');
+                updateBoard();
+            });
+        });
+    });
+</script>
+{% endblock %}

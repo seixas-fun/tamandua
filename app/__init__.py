@@ -4,7 +4,8 @@ from app.extensions import db, migrate, login_manager, babel, oauth
 from app.auth.routes import auth_bp
 from app.game import game_bp
 from app.profile.routes import profile_bp
-from app.ranking.routes import ranking_bp
+from app.ranking import ranking_bp
+
 
 def get_locale():
     # Check if user selected a language, otherwise use browser default

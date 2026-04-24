@@ -1,49 +1,61 @@
-from flask import Blueprint, render_template, redirect, url_for
-from sqlalchemy import func, desc
+from flask import render_template
+from flask_login import current_user
+from sqlalchemy import func
+
 from app.extensions import db
 from app.models.game import GameSession
 from app.models.user import User
-
-ranking_bp = Blueprint('ranking', __name__)
+from app.ranking import ranking_bp
 
 @ranking_bp.route('/')
 def index():
-    # Set the default leaderboard to "national" flags in "typing" mode
-    return redirect(url_for('ranking.typing_ranking', flag_set='national'))
+    modes = ['multiple', 'typing']
+    sets = ['national', 'world_cup', 'brazil_states']
+    
+    leaderboards = {}
+    
+    for m in modes:
+        leaderboards[m] = {}
+        for s in sets:
+            # 1. Base Subquery: Minimum time for flawless runs per user
+            subq = db.session.query(
+                GameSession.user_id,
+                func.min(GameSession.time_taken).label('best_time')
+            ).filter(
+                GameSession.mode == m,
+                GameSession.flag_set == s,
+                GameSession.errors == 0
+            ).group_by(GameSession.user_id).subquery()
+            
+            # 2. Ranked Subquery: Calculate rank over the best times using SQL Window Functions
+            ranked_subq = db.session.query(
+                subq.c.user_id,
+                subq.c.best_time,
+                func.rank().over(order_by=subq.c.best_time).label('rank')
+            ).subquery()
 
-@ranking_bp.route('/typing/<flag_set>')
-def typing_ranking(flag_set):
-    # 15 minutes = 900 seconds
-    TIME_LIMIT = 900 
-    
-    # Subquery: Users who completed within 15 mins with 0 errors
-    valid_runs = db.session.query(
-        GameSession.user_id,
-        func.min(GameSession.time_taken).label('best_time')
-    ).filter(
-        GameSession.mode == 'typing',
-        GameSession.flag_set == flag_set,
-        GameSession.time_taken <= TIME_LIMIT,
-        GameSession.errors == 0
-    ).group_by(GameSession.user_id).subquery()
-    
-    # Main query with Quartiles
-    ranked_query = db.session.query(
-        User.nickname,
-        User.avatar,
-        valid_runs.c.best_time,
-        func.ntile(4).over(order_by=valid_runs.c.best_time).label('quartile')
-    ).join(User, User.id == valid_runs.c.user_id).order_by(valid_runs.c.best_time).limit(100).all()
+            # 3. Top 10 Players
+            top_players = db.session.query(
+                User.nickname,
+                User.avatar,
+                ranked_subq.c.best_time,
+                ranked_subq.c.rank
+            ).join(
+                ranked_subq, User.id == ranked_subq.c.user_id
+            ).order_by(ranked_subq.c.rank).limit(10).all()
 
-    # Map quartiles to medals
-    medals = {1: 'Diamond', 2: 'Gold', 3: 'Silver', 4: 'Bronze'}
-    results = [
-        {
-            "rank": idx + 1,
-            "nickname": r.nickname,
-            "time": r.best_time,
-            "tier": medals.get(r.quartile)
-        } for idx, r in enumerate(ranked_query)
-    ]
-    
-    return render_template('ranking.html', leaderboards=results, mode='Typing', flag_set=flag_set)
+            # 4. Find the Current User's Specific Rank (If logged in)
+            user_rank_data = None
+            if current_user.is_authenticated:
+                user_rank_data = db.session.query(
+                    ranked_subq.c.rank,
+                    ranked_subq.c.best_time
+                ).filter(ranked_subq.c.user_id == current_user.id).first()
+
+            # Store both pieces of data in the dictionary
+            leaderboards[m][s] = {
+                'top_players': top_players,
+                'user_rank': user_rank_data
+            }
+            
+    return render_template('ranking/index.html', leaderboards=leaderboards)
