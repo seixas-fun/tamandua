@@ -39,10 +39,10 @@
     <div class="header-section text-center">
         {% if current_user.is_authenticated %}
             <h2>{{ _('Welcome') }}, {{ current_user.nickname }}!</h2>
-            <p>{{ _('Ready to test your knowledge of world flags?') }}</p>
+            <p>{{ _('Pick an option or type the name of the flag') }}</p>
         {% else %}
             <h2>{{ _('Welcome to Tamanduá!') }}</h2>
-            <p>{{ _('Test your knowledge of world flags.') }}</p>
+            <p>{{ _('Log in to compete with other players.') }}</p>
         {% endif %}
     </div>
 
