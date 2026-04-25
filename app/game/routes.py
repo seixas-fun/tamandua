@@ -87,7 +87,7 @@ def victory():
 @game_bp.route('/set_language/<lang>')
 def set_language(lang):
     # Ensure they only pass valid languages
-    if lang in ['en', 'pt']:
+    if lang in ['en', 'pt', 'es']:
         session['lang'] = lang
     
     # Redirect back to the page they were on, or to index if unknown
