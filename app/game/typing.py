@@ -4,7 +4,7 @@ from flask_login import current_user
 
 from app.extensions import db
 from app.models.stats import FlagStat
-from app.data.flags_data import FLAG_SETS_EN, FLAG_SETS_PT
+from app.data.flags_data import FLAG_SETS, get_synonyms_for_language
 
 # Import the blueprint from the game module
 from app.game import game_bp
@@ -59,19 +59,18 @@ def typing_mode():
 
     # 3. Retrieve Current Flag Data
     set_key = session['flag_set']
+    lang = session.get('lang', 'en')
     current_country_idx = session['indices'][session['current_idx']]
-    if session.get('language') == 'pt':
-        country_data = FLAG_SETS_PT[set_key]['data'][current_country_idx]
-    else:
-        country_data = FLAG_SETS_EN[set_key]['data'][current_country_idx]
+    country_data = FLAG_SETS[set_key]['data'][current_country_idx]
     
     # 4. Handle User Guess (POST)
     if request.method == 'POST':
         user_input = normalize_str(request.form.get('answer', ''))
         
         # Generate list of valid answers (normalized)
-        valid_options = [normalize_str(s) for s in country_data['synonyms']]
-        valid_options.append(normalize_str(country_data['name']))
+        valid_options = [
+            normalize_str(s) for s in get_synonyms_for_language(country_data, lang)
+        ]
 
         # In typing mode, the JS frontend only sends if it's correct,
         # but we validate here on the backend for absolute security.
@@ -88,14 +87,12 @@ def typing_mode():
             update_flag_stat(country_data['name'], set_key, is_hit=False)
         
     # 5. Calculate total flags for the progress bar
-    if session.get('language') == 'pt':
-        total_flags = len(FLAG_SETS_PT[set_key]['data'])
-    else:
-        total_flags = len(FLAG_SETS_EN[set_key]['data'])
+    total_flags = len(FLAG_SETS[set_key]['data'])
 
     # Note: Ensure typing.html is moved to app/templates/game/typing.html
     return render_template('game/typing.html', 
                            country=country_data, 
+                           valid_answers=get_synonyms_for_language(country_data, lang),
                            folder=session['flag_folder'],
                            start_time=session['start_time'],
                            total_flags=total_flags)

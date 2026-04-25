@@ -35,7 +35,7 @@
         <input type="text" id="answerInput" name="answer"
                placeholder="{{ _('Type flag name') }}..." 
                autocomplete="off" autofocus
-               data-answers="{{ country['synonyms'] | join('|') }}|{{ country['name'] }}">
+               data-answers="{{ valid_answers | join('|') }}">
     </form>
 
     <div class="hint">{{ _('No need to press Enter. The game validates instantly.') }}</div>

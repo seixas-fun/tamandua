@@ -134,15 +134,15 @@
                 <div style="display: flex; gap: 10px; margin-bottom: 20px;">
                     <div class="stat-box" style="flex: 1; padding: 10px;">
                         <span class="lbl">{{ _('National') }}</span>
-                        <span class="tier-badge tier-{{ user_tiers['multiple']['national'] }}" style="display: block; margin-top: 5px;">{{ _(user_tiers['multiple']['national']) }}</span>
+                        <span class="tier-badge tier-{{ user_tiers['multiple']['national'] }}" style="display: block; margin-top: 5px;">{{ tier_label(user_tiers['multiple']['national']) }}</span>
                     </div>
                     <div class="stat-box" style="flex: 1; padding: 10px;">
                         <span class="lbl">{{ _('World Cup') }}</span>
-                        <span class="tier-badge tier-{{ user_tiers['multiple']['world_cup'] }}" style="display: block; margin-top: 5px;">{{ _(user_tiers['multiple']['world_cup']) }}</span>
+                        <span class="tier-badge tier-{{ user_tiers['multiple']['world_cup'] }}" style="display: block; margin-top: 5px;">{{ tier_label(user_tiers['multiple']['world_cup']) }}</span>
                     </div>
                     <div class="stat-box" style="flex: 1; padding: 10px;">
                         <span class="lbl">{{ _('Brazilian States') }}</span>
-                        <span class="tier-badge tier-{{ user_tiers['multiple']['brazil_states'] }}" style="display: block; margin-top: 5px;">{{ _(user_tiers['multiple']['brazil_states']) }}</span>
+                        <span class="tier-badge tier-{{ user_tiers['multiple']['brazil_states'] }}" style="display: block; margin-top: 5px;">{{ tier_label(user_tiers['multiple']['brazil_states']) }}</span>
                     </div>
                 </div>
 
@@ -150,15 +150,15 @@
                 <div style="display: flex; gap: 10px;">
                     <div class="stat-box" style="flex: 1; padding: 10px;">
                         <span class="lbl">{{ _('National') }}</span>
-                        <span class="tier-badge tier-{{ user_tiers['typing']['national'] }}" style="display: block; margin-top: 5px;">{{ _(user_tiers['typing']['national']) }}</span>
+                        <span class="tier-badge tier-{{ user_tiers['typing']['national'] }}" style="display: block; margin-top: 5px;">{{ tier_label(user_tiers['typing']['national']) }}</span>
                     </div>
                     <div class="stat-box" style="flex: 1; padding: 10px;">
                         <span class="lbl">{{ _('World Cup') }}</span>
-                        <span class="tier-badge tier-{{ user_tiers['typing']['world_cup'] }}" style="display: block; margin-top: 5px;">{{ _(user_tiers['typing']['world_cup']) }}</span>
+                        <span class="tier-badge tier-{{ user_tiers['typing']['world_cup'] }}" style="display: block; margin-top: 5px;">{{ tier_label(user_tiers['typing']['world_cup']) }}</span>
                     </div>
                     <div class="stat-box" style="flex: 1; padding: 10px;">
                         <span class="lbl">{{ _('Brazilian States') }}</span>
-                        <span class="tier-badge tier-{{ user_tiers['typing']['brazil_states'] }}" style="display: block; margin-top: 5px;">{{ _(user_tiers['typing']['brazil_states']) }}</span>
+                        <span class="tier-badge tier-{{ user_tiers['typing']['brazil_states'] }}" style="display: block; margin-top: 5px;">{{ tier_label(user_tiers['typing']['brazil_states']) }}</span>
                     </div>
                 </div>
                 <p style="font-size: 0.8rem; color: #aaa; margin-top: 15px; text-align: center;"><i class="fas fa-info-circle"></i> {{ _('Only 100%% correct games qualify for a ranking tier.') }}</p>

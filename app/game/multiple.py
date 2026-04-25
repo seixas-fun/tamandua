@@ -3,7 +3,7 @@ from flask_login import current_user
 import random
 from app.extensions import db
 from app.models.stats import FlagStat
-from app.data.flags_data import FLAG_SETS_EN, FLAG_SETS_PT
+from app.data.flags_data import FLAG_SETS, get_display_name
 from app.game import game_bp 
 
 def update_flag_stat(flag_name, flag_set, is_hit):
@@ -47,11 +47,9 @@ def multiple_mode():
 
     # 3. Retrieve Current Flag Data
     set_key = session['flag_set']
+    lang = session.get('lang', 'en')
     current_country_idx = session['indices'][session['current_idx']]
-    if session.get('language') == 'pt':
-        correct_country = FLAG_SETS_PT[set_key]['data'][current_country_idx]
-    else:
-        correct_country = FLAG_SETS_EN[set_key]['data'][current_country_idx]
+    correct_country = FLAG_SETS[set_key]['data'][current_country_idx]
     
     # 4. Handle User Guess (POST)
     if request.method == 'POST':
@@ -71,22 +69,28 @@ def multiple_mode():
         return redirect(url_for('game.multiple_mode'))
 
     # 5. Prepare Multiple Choice Options (GET)
-    if session.get('language') == 'pt':
-        all_flags = FLAG_SETS_PT[set_key]['data']
-    else:
-        all_flags = FLAG_SETS_EN[set_key]['data']
-    others = [c['name'] for c in all_flags if c['name'] != correct_country['name']]
+    all_flags = FLAG_SETS[set_key]['data']
+    others = [c for c in all_flags if c['name'] != correct_country['name']]
     
     # Select 3 random incorrect options and add the correct one
     num_options = min(len(others), 3)
     options = random.sample(others, num_options)
-    options.append(correct_country['name'])
+    options.append(correct_country)
     random.shuffle(options)
+
+    option_cards = [
+        {
+            'value': option['name'],
+            'label': get_display_name(option, lang),
+            'is_correct': option['name'] == correct_country['name'],
+        }
+        for option in options
+    ]
 
     total_flags = len(all_flags)
     
     return render_template('game/multiple.html', 
                            country=correct_country, 
-                           options=options,
+                           options=option_cards,
                            folder=session['flag_folder'],
                            total_flags=total_flags)

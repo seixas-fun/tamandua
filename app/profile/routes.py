@@ -11,6 +11,17 @@ from app.models.user import User
 
 profile_bp = Blueprint('profile', __name__)
 
+def get_tier_label(tier):
+    """Translates a stable tier key for display without changing internal values."""
+    labels = {
+        "Diamond": _("Diamond"),
+        "Gold": _("Gold"),
+        "Silver": _("Silver"),
+        "Bronze": _("Bronze"),
+        "Unranked": _("Unranked"),
+    }
+    return labels.get(tier, _("Unranked"))
+
 def get_user_tier(user_id, mode, flag_set):
     """Calculates the user's quartile tier for a specific mode and set based on flawless runs."""
     valid_runs = db.session.query(
@@ -94,7 +105,7 @@ def dashboard():
         total_games=total_games, accuracy=accuracy,
         missed=most_missed, hit=most_hit,
         achievements=achievements, user_tiers=user_tiers, 
-        evolution_data=evolution_data
+        evolution_data=evolution_data, tier_label=get_tier_label
     )
 
 @profile_bp.route('/update_nickname', methods=['POST'])

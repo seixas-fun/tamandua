@@ -72,9 +72,9 @@
         {% for option in options %}
             <button type="button" 
                     class="option-btn" 
-                    data-value="{{ option }}"
-                    data-correct="{% if option == country.name %}true{% else %}false{% endif %}">
-                {{ option }}
+                    data-value="{{ option.value }}"
+                    data-correct="{% if option.is_correct %}true{% else %}false{% endif %}">
+                {{ option.label }}
             </button>
         {% endfor %}
     </div>
