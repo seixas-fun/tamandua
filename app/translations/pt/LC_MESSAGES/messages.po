@@ -43,8 +43,8 @@ msgid "Welcome"
 msgstr "Bem-vindo(a)"
 
 #: app/templates/game/index.html:42
-msgid "Pick an option or type the name of the flag"
-msgstr "Selecione uma opção ou digite o nome da bandeira."
+msgid "Choose your flag set and game mode to start playing."
+msgstr "Escolha seu conjunto de bandeiras e modo de jogo para começar a jogar."
 
 #: app/templates/game/index.html:44
 msgid "Welcome to Tamanduá!"
@@ -80,7 +80,7 @@ msgstr "Múltipla escolha (NORMAL)"
 
 #: app/templates/game/index.html:72
 msgid "Choose the correct flag from 4 options"
-msgstr "Escolha a bandeira correta entre 4 opções."
+msgstr "Escolha a bandeira correta entre 4 opções"
 
 #: app/templates/game/index.html:78
 msgid "Typing (HARD)"
@@ -223,7 +223,7 @@ msgstr "Terminei uma partida no modo Múltipla Escolha."
 
 #: app/templates/profile/profile.html:203
 msgid "Choice Explorer"
-msgstr "Explorador de Escolhas"
+msgstr "Explorador das Múltiplas Escolhas"
 
 #: app/templates/profile/profile.html:208
 msgid "Finished a game in Typing mode"
@@ -255,7 +255,7 @@ msgstr "Termine um jogo com bandeiras dos Estados Brasileiros"
 
 #: app/templates/profile/profile.html:223
 msgid "Brazilian Explorer"
-msgstr "Explorador do Brazil"
+msgstr "Explorador do Brasil"
 
 #: app/templates/profile/profile.html:228
 #, python-format
@@ -308,7 +308,7 @@ msgstr "Precisa de mais prática (mais erros)"
 
 #: app/templates/profile/profile.html:267
 msgid "misses"
-msgstr "Erros"
+msgstr "erros"
 
 #: app/templates/profile/profile.html:270
 msgid "No misses yet! You are a geography master."
@@ -320,7 +320,7 @@ msgstr "Dominado (Mais acertos)"
 
 #: app/templates/profile/profile.html:281
 msgid "hits"
-msgstr "Acertos"
+msgstr "acertos"
 
 #: app/templates/profile/profile.html:284
 msgid "Keep playing to build your mastered list!"

@@ -43,8 +43,8 @@ msgid "Welcome"
 msgstr "Bienvenido"
 
 #: app/templates/game/index.html:42
-msgid "Pick an option or type the name of the flag"
-msgstr "Seleccione una opción o escriba el nombre de la bandera"
+msgid "Choose your flag set and game mode to start playing."
+msgstr "Elige tu conjunto de banderas y modo de juego para empezar a jugar."
 
 #: app/templates/game/index.html:44
 msgid "Welcome to Tamanduá!"

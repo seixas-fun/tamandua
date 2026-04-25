@@ -39,7 +39,7 @@
     <div class="header-section text-center">
         {% if current_user.is_authenticated %}
             <h2>{{ _('Welcome') }}, {{ current_user.nickname }}!</h2>
-            <p>{{ _('Pick an option or type the name of the flag') }}</p>
+            <p>{{ _('Choose your flag set and game mode to start playing.') }}</p>
         {% else %}
             <h2>{{ _('Welcome to Tamanduá!') }}</h2>
             <p>{{ _('Log in to compete with other players.') }}</p>
