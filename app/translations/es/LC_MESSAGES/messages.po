@@ -7,8 +7,8 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PROJECT VERSION\n"
 "Report-Msgid-Bugs-To: EMAIL@ADDRESS\n"
-"POT-Creation-Date: 2026-04-24 19:25-0300\n"
-"PO-Revision-Date: 2026-04-24 21:11-0300\n"
+"POT-Creation-Date: 2026-04-25 19:17-0300\n"
+"PO-Revision-Date: 2026-04-25 19:18-0300\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language: es\n"
 "Language-Team: es <LL@li.org>\n"
@@ -20,346 +20,336 @@ msgstr ""
 
 #: app/profile/routes.py:108
 msgid "Nickname updated successfully!"
-msgstr "¡Nombre de usuario actualizado correctamente!"
+msgstr ""
 
 #: app/profile/routes.py:111
 msgid "That nickname is already taken."
-msgstr "Ese nombre de usuario ya está ocupado."
+msgstr ""
 
 #: app/templates/base.html:6 app/templates/game/index.html:36
 msgid "Can you guess all the flags?"
-msgstr "¿Puedes adivinar todas las banderas?"
+msgstr ""
 
-#: app/templates/base.html:142
+#: app/templates/base.html:165
 msgid "Logout"
-msgstr "Cerrar sesión"
+msgstr ""
 
-#: app/templates/base.html:147
+#: app/templates/base.html:170
 msgid "Login"
-msgstr "Iniciar sesión"
+msgstr ""
 
 #: app/templates/game/index.html:41
 msgid "Welcome"
-msgstr "Bienvenido"
+msgstr ""
 
 #: app/templates/game/index.html:42
 msgid "Choose your flag set and game mode to start playing."
-msgstr "Elige tu conjunto de banderas y modo de juego para empezar a jugar."
+msgstr ""
 
 #: app/templates/game/index.html:44
 msgid "Welcome to Tamanduá!"
-msgstr "¡Bienvenidos a Tamanduá!"
+msgstr ""
 
 #: app/templates/game/index.html:45
 msgid "Log in to compete with other players."
-msgstr "Inicia sesión para competir con otros jugadores."
+msgstr ""
 
 #: app/templates/game/index.html:51
 msgid "Flags"
-msgstr "Banderas"
+msgstr ""
 
 #: app/templates/game/index.html:54
-msgid "National Flags (195)"
-msgstr "Banderas Nacionales (195)"
+msgid "National Flags"
+msgstr ""
 
-#: app/templates/game/index.html:57
-msgid "World Cup (48)"
-msgstr "Copa del Mundo (48)"
+#: app/templates/game/index.html:57 app/templates/profile/profile.html:140
+#: app/templates/profile/profile.html:156
+#: app/templates/profile/profile.html:177 app/templates/ranking/index.html:64
+msgid "World Cup"
+msgstr ""
 
-#: app/templates/game/index.html:60
-msgid "Brazilian States (27)"
-msgstr "Estados Brasileños (27)"
+#: app/templates/game/index.html:60 app/templates/profile/profile.html:144
+#: app/templates/profile/profile.html:160
+#: app/templates/profile/profile.html:178 app/templates/ranking/index.html:65
+msgid "Brazilian States"
+msgstr ""
 
 #: app/templates/game/index.html:66
 msgid "Game Mode"
-msgstr "Modo de juego"
+msgstr ""
 
 #: app/templates/game/index.html:71
 msgid "Choice (NORMAL)"
-msgstr "Opción Multiplé (NORMAL)"
+msgstr ""
 
 #: app/templates/game/index.html:72
 msgid "Choose the correct flag from 4 options"
-msgstr "Elige la bandera correcta entre 4 opciones."
+msgstr ""
 
 #: app/templates/game/index.html:78
 msgid "Typing (HARD)"
-msgstr "Mecanografía (DIFÍCIL)"
+msgstr ""
 
 #: app/templates/game/index.html:79
 msgid "Type the correct answer as fast as you can"
-msgstr "Escribe la respuesta correcta lo más rápido que puedas."
+msgstr ""
 
 #: app/templates/game/index.html:87
 msgid "Created by:"
-msgstr "Creado por:"
+msgstr ""
 
 #: app/templates/game/multiple.html:82 app/templates/game/typing.html:42
 msgid "QUIT"
-msgstr "ABANDONAR"
+msgstr ""
 
 #: app/templates/game/typing.html:36
-msgid "Type country name..."
-msgstr "Escriba el nombre del país..."
+msgid "Type flag name"
+msgstr ""
 
 #: app/templates/game/typing.html:41
-msgid "No need to press Enter. The game validates instantly!"
-msgstr "No es necesario pulsar Enter. ¡El juego se valida al instante!"
+msgid "No need to press Enter. The game validates instantly."
+msgstr ""
 
 #: app/templates/game/victory.html:19
 msgid "Congratulations!"
-msgstr "Estupendo"
+msgstr ""
 
 #: app/templates/game/victory.html:20
 msgid "Well done"
-msgstr "Muy bien"
+msgstr ""
 
 #: app/templates/game/victory.html:26
 msgid "Accuracy"
-msgstr "Precisión"
+msgstr ""
 
-#: app/templates/game/victory.html:30
+#: app/templates/game/victory.html:30 app/templates/profile/profile.html:281
 msgid "Hits"
-msgstr "Éxitos"
+msgstr ""
 
 #: app/templates/game/victory.html:33
 msgid "Missed"
-msgstr "Incorrecto"
+msgstr ""
 
 #: app/templates/game/victory.html:37
 msgid "TOTAL TIME"
-msgstr "TIEMPO TOTAL"
+msgstr ""
 
 #: app/templates/game/victory.html:45
-msgid "Log in with Google to save your stats and compete on the global leaderboard!"
-msgstr "Inicia sesión con Google para guardar tus estadísticas y competir en la clasificación mundial."
+msgid ""
+"Log in with Google to save your stats and compete on the global "
+"leaderboard!"
+msgstr ""
 
 #: app/templates/game/victory.html:49
 msgid "Back to Menu"
-msgstr "Volver al Menú"
+msgstr ""
 
 #: app/templates/game/victory.html:50
 msgid "View Rankings"
-msgstr "Ver Clasificaciones"
+msgstr ""
 
 #: app/templates/profile/profile.html:100
 msgid "Edit Nickname"
-msgstr "Editar Nombre de Usuario"
+msgstr ""
 
 #: app/templates/profile/profile.html:109
 msgid "Save"
-msgstr "Guardar"
+msgstr ""
 
 #: app/templates/profile/profile.html:110
 msgid "Cancel"
-msgstr "Cancelar"
+msgstr ""
 
 #: app/templates/profile/profile.html:118
 msgid "Games Played"
-msgstr "Juegos jugados"
+msgstr ""
 
 #: app/templates/profile/profile.html:122
 msgid "Global Accuracy"
-msgstr "Precisión global"
+msgstr ""
 
 #: app/templates/profile/profile.html:131
 msgid "Rankings (Flawless Runs)"
-msgstr "Clasificación (Partidas perfectas)"
+msgstr ""
 
 #: app/templates/profile/profile.html:133 app/templates/ranking/index.html:58
 msgid "Choice Mode"
-msgstr "Modo de Opción Múltiple"
+msgstr ""
 
 #: app/templates/profile/profile.html:136
 #: app/templates/profile/profile.html:152
 #: app/templates/profile/profile.html:176 app/templates/ranking/index.html:63
 msgid "National"
-msgstr "Nacional"
-
-#: app/templates/profile/profile.html:140
-#: app/templates/profile/profile.html:156
-#: app/templates/profile/profile.html:177 app/templates/ranking/index.html:64
-msgid "World Cup"
-msgstr "Copa del Mundo"
-
-#: app/templates/profile/profile.html:144
-#: app/templates/profile/profile.html:160
-#: app/templates/profile/profile.html:178 app/templates/ranking/index.html:65
-msgid "Brazilian States"
-msgstr "Estados Brasileños"
+msgstr ""
 
 #: app/templates/profile/profile.html:149 app/templates/ranking/index.html:59
 msgid "Typing Mode"
-msgstr "Modo de Mecanografía"
+msgstr ""
 
 #: app/templates/profile/profile.html:164
 #, python-format
 msgid "Only 100%% correct games qualify for a ranking tier."
-msgstr "Solo los juegos con un 100%% de aciertos califican para un nivel de clasificación."
+msgstr ""
 
 #: app/templates/profile/profile.html:169
 msgid "Evolution"
-msgstr "Evolución"
+msgstr ""
 
 #: app/templates/profile/profile.html:172
 msgid "Typing"
-msgstr "Mecanografía"
+msgstr ""
 
 #: app/templates/profile/profile.html:173
 msgid "Choice"
-msgstr "Opción"
+msgstr ""
 
 #: app/templates/profile/profile.html:187
 msgid "Play more games in this category to see your evolution!"
-msgstr "¡Juega más juegos de esta categoría para ver tu evolución!"
+msgstr ""
 
 #: app/templates/profile/profile.html:193
 msgid "Achievements"
-msgstr "Logros"
+msgstr ""
 
 #: app/templates/profile/profile.html:203
 msgid "Finished a game in Choice mode"
-msgstr "Terminé un juego en modo de Opción Múltiple."
+msgstr ""
 
 #: app/templates/profile/profile.html:203
 msgid "Choice Explorer"
-msgstr "Explorador de opciones"
+msgstr ""
 
 #: app/templates/profile/profile.html:208
 msgid "Finished a game in Typing mode"
-msgstr "Terminé un juego en modo de Mecanografía."
+msgstr ""
 
 #: app/templates/profile/profile.html:208
 msgid "Keyboard Warrior"
-msgstr "Guerrero del teclado"
+msgstr ""
 
 #: app/templates/profile/profile.html:213
 msgid "Finished a game with National flags"
-msgstr "Finalizó un juego con banderas nacionales."
+msgstr ""
 
 #: app/templates/profile/profile.html:213
 msgid "World Traveler"
-msgstr "Viajero del mundo"
+msgstr ""
 
 #: app/templates/profile/profile.html:218
 msgid "Finished a game with World Cup flags"
-msgstr "Finalizó un partido con banderas del Mundial"
+msgstr ""
 
 #: app/templates/profile/profile.html:218
 msgid "Football Fanatic"
-msgstr "Fanático del fútbol"
+msgstr ""
 
 #: app/templates/profile/profile.html:223
 msgid "Finished a game with Brazilian State flags"
-msgstr "Terminé un juego con banderas de Estados Brasileños."
+msgstr ""
 
 #: app/templates/profile/profile.html:223
-msgid "Brazilian Explorer"
-msgstr "Explorador de Brasil"
+msgid "Brazil Explorer"
+msgstr ""
 
 #: app/templates/profile/profile.html:228
 #, python-format
 msgid "Finished Choice mode with 100%% accuracy"
-msgstr "Modo de Opción Multiplé finalizada con 100%% de precisión."
+msgstr ""
 
 #: app/templates/profile/profile.html:228
 msgid "Sharpshooter"
-msgstr "Tirador de primera"
+msgstr ""
 
 #: app/templates/profile/profile.html:233
 msgid "Got every single flag wrong in Choice mode"
-msgstr "Me equivoqué en todas las banderas en el modo Opción Multiplé."
+msgstr ""
 
 #: app/templates/profile/profile.html:233
 msgid "Critical Failure"
-msgstr "Fallo crítico"
+msgstr ""
 
 #: app/templates/profile/profile.html:238
 msgid "Flawless National Flags Typing run under 10 minutes"
-msgstr "Mecanografía impecable de banderas nacionales en menos de 10 minutos."
+msgstr ""
 
 #: app/templates/profile/profile.html:238
 msgid "Global Speedster"
-msgstr "Velocista global"
+msgstr ""
 
 #: app/templates/profile/profile.html:243
 msgid "Flawless Brazilian State Flags Typing run under 2 minutes"
-msgstr "Escribir banderas de los estados brasileños sin errores lleva menos de 2 minutos"
+msgstr ""
 
 #: app/templates/profile/profile.html:243
 msgid "Brazilian States Speedster"
-msgstr "Speedster de los Estados Brasileños"
+msgstr ""
 
 #: app/templates/profile/profile.html:248
 msgid "Obtained a Diamond Ranking"
-msgstr "Obtuvo la clasificación Diamante."
+msgstr ""
 
 #: app/templates/profile/profile.html:248
 msgid "Diamond Elite"
-msgstr "Élite Diamante"
+msgstr ""
 
 #: app/templates/profile/profile.html:253
 msgid "Keep playing games to uncover hidden achievements!"
-msgstr "Sigue jugando para descubrir logros ocultos."
+msgstr ""
 
 #: app/templates/profile/profile.html:262
 msgid "Needs Practice (Most Missed)"
-msgstr "Necesita práctica (Lo que más se falla)"
+msgstr ""
 
 #: app/templates/profile/profile.html:267
-msgid "misses"
-msgstr "falla"
+msgid "Misses"
+msgstr ""
 
 #: app/templates/profile/profile.html:270
 msgid "No misses yet! You are a geography master."
-msgstr "¡Ningún error hasta ahora! Eres un maestro de la geografía."
+msgstr ""
 
 #: app/templates/profile/profile.html:276
 msgid "Mastered (Most Hit)"
-msgstr "Mastered (Más éxitos)"
-
-#: app/templates/profile/profile.html:281
-msgid "hits"
-msgstr "éxitos"
+msgstr ""
 
 #: app/templates/profile/profile.html:284
 msgid "Keep playing to build your mastered list!"
-msgstr "¡Sigue jugando para ampliar tu lista de juegos dominados!"
+msgstr ""
 
 #: app/templates/profile/profile.html:334
 msgid "Time (Seconds)"
-msgstr "Tiempo (segundos)"
+msgstr ""
 
 #: app/templates/ranking/index.html:54
 msgid "Global Leaderboard"
-msgstr "Clasificación mundial"
+msgstr ""
 
 #: app/templates/ranking/index.html:55
 msgid "Top 10 fastest flawless runs by category."
-msgstr "Los 10 juegos más rápidos y sin errores por categoría."
+msgstr ""
 
 #: app/templates/ranking/index.html:77
 msgid "Rank"
-msgstr "Clasificación"
+msgstr ""
 
 #: app/templates/ranking/index.html:78
 msgid "Player"
-msgstr "Jugador"
+msgstr ""
 
 #: app/templates/ranking/index.html:79
 msgid "Time"
-msgstr "Tiempo"
+msgstr ""
 
 #: app/templates/ranking/index.html:106
 msgid "No flawless runs recorded yet. Be the first!"
-msgstr "Aún no se han registrado partidas perfectas. ¡Sé el primero!"
+msgstr ""
 
 #: app/templates/ranking/index.html:110
 msgid "Your position"
-msgstr "Tu posición"
+msgstr ""
 
 #: app/templates/ranking/index.html:131
 #, python-format
 msgid "Unranked (Score 100%% to qualify)"
-msgstr "Sin clasificación (Obtén una puntuación del 100%% para clasificar)"
+msgstr ""
 

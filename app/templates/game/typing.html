@@ -33,12 +33,12 @@
     <form id="answerForm" method="POST">
         <input type="hidden" name="csrf_token" value="{{ csrf_token() }}">
         <input type="text" id="answerInput" name="answer"
-               placeholder="{{ _('Type country name...') }}" 
+               placeholder="{{ _('Type flag name') }}..." 
                autocomplete="off" autofocus
                data-answers="{{ country['synonyms'] | join('|') }}|{{ country['name'] }}">
     </form>
 
-    <div class="hint">{{ _('No need to press Enter. The game validates instantly!') }}</div>
+    <div class="hint">{{ _('No need to press Enter. The game validates instantly.') }}</div>
     <a href="{{ url_for('game.index') }}" class="exit-link"><i class="fa-solid fa-right-from-bracket"></i> {{ _('QUIT') }}</a>
 </div>
 

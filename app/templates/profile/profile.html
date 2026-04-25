@@ -220,7 +220,7 @@
 
                     {% if achievements.played_brazil %}
                         {% set earned_any = true %}
-                        <div class="achievement-badge earned" title="{{ _('Finished a game with Brazilian State flags') }}"><i class="fas fa-map-marker-alt"></i> {{ _('Brazilian Explorer') }}</div>
+                        <div class="achievement-badge earned" title="{{ _('Finished a game with Brazilian State flags') }}"><i class="fas fa-map-marker-alt"></i> {{ _('Brazil Explorer') }}</div>
                     {% endif %}
 
                     {% if achievements.flawless_choice %}
@@ -264,7 +264,7 @@
                     {% for stat in missed %}
                     <li>
                         <span>{{ stat.flag_name }} <small style="color:#888;">({{ stat.flag_set }})</small></span>
-                        <span class="count count-miss">{{ stat.misses }} {{ _('misses') }}</span>
+                        <span class="count count-miss">{{ stat.misses }} {{ _('Misses') }}</span>
                     </li>
                     {% else %}
                     <li style="color: #888;">{{ _('No misses yet! You are a geography master.') }}</li>
@@ -278,7 +278,7 @@
                     {% for stat in hit %}
                     <li>
                         <span>{{ stat.flag_name }} <small style="color:#888;">({{ stat.flag_set }})</small></span>
-                        <span class="count count-hit">{{ stat.hits }} {{ _('hits') }}</span>
+                        <span class="count count-hit">{{ stat.hits }} {{ _('Hits') }}</span>
                     </li>
                     {% else %}
                     <li style="color: #888;">{{ _('Keep playing to build your mastered list!') }}</li>
