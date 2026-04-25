@@ -6,7 +6,6 @@ from app.game import game_bp
 from app.profile.routes import profile_bp
 from app.ranking import ranking_bp
 
-
 def get_locale():
     # Check if user selected a language, otherwise use browser default
     return session.get('lang', request.accept_languages.best_match(Config.LANGUAGES))
