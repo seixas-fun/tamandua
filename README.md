@@ -50,9 +50,8 @@ Players can choose from three distinct categories to master:
 * [X] Build the User Profile dashboard.
 * [X] Implement achievements for the player.
 * [X] Implement Global Leaderboard.
-* [X] Split FLAG_SETS in multilanguage dictionaries.
-* [ ] Support for multiple languages [*English* (🇬🇧), *Brazilian Portuguese* (🇧🇷) and *Spanish* (🇪🇸)].
-* [ ] Create domain.
+* [X] Support for multiple languages [*English* (🇬🇧), *Brazilian Portuguese* (🇧🇷) and *Spanish* (🇪🇸)].
+* [X] Create domain.
 * [ ] Deployment online.
 
 ## Contributing
