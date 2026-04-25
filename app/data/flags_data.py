@@ -314,6 +314,14 @@ _NAME_CODE_ALIASES = {
 }
 
 _CUSTOM_LOCALIZED_NAMES = {
+    "Bahrain": {
+        "pt": ["Bahrein"],
+        "es": ["Baréin"],
+    },
+    "Belarus": {
+        "pt": ["Belarus"],
+        "es": ["Belarús"],
+    },
     "Democratic Republic of the Congo": {
         "pt": ["República Democrática do Congo", "Congo-Kinshasa"],
         "es": ["República Democrática del Congo", "Congo-Kinsasa"],
@@ -349,6 +357,10 @@ _CUSTOM_LOCALIZED_NAMES = {
     "Scotland": {
         "pt": ["Escócia"],
         "es": ["Escocia"],
+    },
+    "Tajikistan": {
+        "pt": ["Tajiquistão"],
+        "es": ["Tayikistán"],
     },
     "The Bahamas": {
         "pt": ["Bahamas"],
