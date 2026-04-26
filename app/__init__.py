@@ -8,6 +8,8 @@ from app.profile.routes import profile_bp
 from app.ranking import ranking_bp
 import os
 
+# Initialize the database globally (but don't bind it to an app yet)
+db = SQLAlchemy()
 
 def get_locale():
     # Check if user selected a language, otherwise use browser default
