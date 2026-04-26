@@ -5,6 +5,8 @@ from app.auth.routes import auth_bp
 from app.game import game_bp
 from app.profile.routes import profile_bp
 from app.ranking import ranking_bp
+import os
+
 
 def get_locale():
     # Check if user selected a language, otherwise use browser default
@@ -13,6 +15,14 @@ def get_locale():
 def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
+
+    # --- ADD THE DATABASE URI LOGIC HERE ---
+    uri = os.getenv("DATABASE_URL", "sqlite:///local.db")
+    if uri and uri.startswith("postgres://"):
+        uri = uri.replace("postgres://", "postgresql://", 1)
+    app.config['SQLALCHEMY_DATABASE_URI'] = uri
+    app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+    app.secret_key = os.getenv("SECRET_KEY", "fallback-secret-for-dev")
 
     # Initialize extensions
     db.init_app(app)
