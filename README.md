@@ -52,7 +52,7 @@ Players can choose from three distinct categories to master:
 * [X] Implement Global Leaderboard.
 * [X] Support for multiple languages [*English* (🇬🇧), *Brazilian Portuguese* (🇧🇷) and *Spanish* (🇪🇸)].
 * [X] Create domain.
-* [ ] Deployment online.
+* [X] Deployment online.
 
 ## Contributing
 

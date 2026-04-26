@@ -85,6 +85,9 @@
             display: flex;
             gap: 15px;
             align-items: center;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+            max-width: calc(100vw - 40px);
         }
 
         .nav-btn {
@@ -103,10 +106,31 @@
             border: none;
         }
 
+        .nav-btn-icon {
+            font-weight: bold;
+            transform: scale(1.1);
+        }
+
+        .nav-btn-accent {
+            background: var(--red);
+            color: var(--white);
+            transform: scale(1.05);
+        }
+
+        .lang-toggle {
+            cursor: pointer;
+            transform: scale(1.05);
+        }
+
         .nav-btn:hover {
             background: rgba(255, 255, 255, 0.4);
             transform: translateY(-2px);
-            scale: 1.1;
+        }
+
+        .nav-btn-icon:hover,
+        .nav-btn-accent:hover,
+        .lang-toggle:hover {
+            transform: translateY(-2px) scale(1.1);
         }
 
         .user-avatar {
@@ -131,22 +155,74 @@
         .lang-dropdown-content a:last-child { border-bottom: none; }
         .lang-dropdown-content a:hover { background-color: #f1f8fe; color: var(--primary); }
 
+        @media (max-width: 768px) {
+            body {
+                padding: 96px 0 20px;
+                align-items: flex-start;
+            }
+
+            .glass-card {
+                width: min(94%, 700px);
+                padding: 28px 20px;
+                border-radius: 24px;
+            }
+
+            .top-nav {
+                top: 12px;
+                right: 12px;
+                left: 12px;
+                gap: 10px;
+                max-width: none;
+            }
+
+            .nav-btn {
+                padding: 8px 12px;
+                font-size: 0.82rem;
+                border-radius: 18px;
+                gap: 6px;
+            }
+
+            .user-avatar {
+                width: 20px;
+                height: 20px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            body {
+                padding-top: 112px;
+            }
+
+            .top-nav {
+                gap: 8px;
+            }
+
+            .nav-btn {
+                padding: 7px 10px;
+                font-size: 0.78rem;
+            }
+
+            .lang-dropdown-content {
+                min-width: 120px;
+            }
+        }
+
         {% block extra_css %}{% endblock %}
     </style>
 </head>
 <body>
 
     <div class="top-nav">
-        <a href="{{ url_for('game.index') }}" class="nav-btn" style="font-weight: bold; scale: 1.2;">
+        <a href="{{ url_for('game.index') }}" class="nav-btn nav-btn-icon">
             <i class="fas fa-home"></i>
         </a>
 
-        <a href="{{ url_for('ranking.index') }}" class="nav-btn" style="scale: 1.2;">
+        <a href="{{ url_for('ranking.index') }}" class="nav-btn nav-btn-icon">
             <i class="fas fa-trophy"></i> 
         </a>
 
         <div class="lang-dropdown">
-            <div class="nav-btn" style="scale: 1.1; cursor: pointer;">
+            <div class="nav-btn lang-toggle">
                 <i class="fas fa-globe"></i> {{ session.get('lang', 'en') | upper }} <i class="fas fa-chevron-down" style="font-size: 0.6rem; margin-left: 3px;"></i>
             </div>
             <div class="lang-dropdown-content">
@@ -162,11 +238,11 @@
                 <img src="{{ current_user.avatar }}" alt="Avatar" class="user-avatar">
                 {{ current_user.nickname }}
             </a>
-            <a href="{{ url_for('auth.logout') }}" class="nav-btn" style="scale: 1.2;" title="{{ _('Logout') }}">
+            <a href="{{ url_for('auth.logout') }}" class="nav-btn nav-btn-icon" title="{{ _('Logout') }}">
                 <i class="fas fa-sign-out-alt"></i>
             </a>
         {% else %}
-            <a href="{{ url_for('auth.login') }}" class="nav-btn" style="background: var(--red); color: var(--white); scale: 1.1;">
+            <a href="{{ url_for('auth.login') }}" class="nav-btn nav-btn-accent">
                 <i class="fab fa-google"></i> {{ _('Login') }}
             </a>
         {% endif %}

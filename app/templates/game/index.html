@@ -2,7 +2,14 @@
 
 {% block extra_css %}
 <style>
+    .logo-area {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
     .logo-area i { font-size: 60px; color: var(--primary); filter: drop-shadow(0 4px 10px rgba(56, 46, 204, 0.3)); }
+    .home-logo { height: 150px; width: auto; max-width: 100%; margin-right: 10px; }
     h1 { font-weight: 800; font-size: 2.5rem; margin: 10px 0; color: var(--dark); letter-spacing: -1px; }
     .tagline { color: #2b4a5e; font-size: 1rem; margin-bottom: 35px; }
     
@@ -25,13 +32,34 @@
 
     .footer-note { margin-top: 30px; font-size: 1.0rem; color: var(--dark); font-weight: 700; display: flex; align-items: center; justify-content: center; gap: 10px; }
     .footer-logo { height: 120px; width: auto; display: block; }
+
+    @media (max-width: 768px) {
+        .home-logo { height: 120px; margin-right: 0; }
+        h1 { font-size: 2rem; }
+        .tagline { font-size: 0.95rem; margin-bottom: 28px; }
+        .set-selector { gap: 12px; }
+        .set-btn { min-width: 0; font-size: 1rem; padding: 12px; }
+        .mode-btn { padding: 16px; }
+        .mode-icon { width: 44px; height: 44px; margin-right: 14px; font-size: 1.2rem; }
+        .footer-note { flex-direction: column; gap: 8px; }
+        .footer-logo { height: 92px; }
+    }
+
+    @media (max-width: 480px) {
+        .home-logo { height: 96px; }
+        h1 { font-size: 1.75rem; }
+        .tagline { font-size: 0.9rem; }
+        .mode-btn { align-items: flex-start; }
+        .mode-text span { font-size: 1rem; }
+        .mode-text small { font-size: 0.8rem; }
+    }
 </style>
 {% endblock %}
 
 {% block content %}
 <div class="glass-card main-container">
     <div class="logo-area">
-        <img src="{{ url_for('static', filename='logos/logo.png') }}" alt="Tamanduá Logo" style="height: 150px; margin-right: 10px;">
+        <img src="{{ url_for('static', filename='logos/logo.png') }}" alt="Tamanduá Logo" class="home-logo">
         <h1>Tamanduá</h1>
         <p class="tagline">{{ _('Can you guess all the flags?') }}</p>
     </div>
