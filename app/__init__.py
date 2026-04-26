@@ -1,15 +1,13 @@
+import os
 from flask import Flask, request, session
-from flask_sqlalchemy import SQLAlchemy
+from werkzeug.middleware.proxy_fix import ProxyFix
 from app.config import Config
 from app.extensions import db, migrate, login_manager, babel, csrf, oauth
 from app.auth.routes import auth_bp
 from app.game import game_bp
 from app.profile.routes import profile_bp
 from app.ranking import ranking_bp
-import os
 
-# Initialize the database globally (but don't bind it to an app yet)
-db = SQLAlchemy()
 
 def get_locale():
     # Check if user selected a language, otherwise use browser default
@@ -19,7 +17,10 @@ def create_app(config_class=Config):
     app = Flask(__name__)
     app.config.from_object(config_class)
 
-    # --- ADD THE DATABASE URI LOGIC HERE ---
+    # PROXY FIX for correct URL generation behind reverse proxies
+    app.wsgi_app = ProxyFix(app.wsgi_app, x_proto=1, x_host=1)
+
+    # DATABASE CONFIG
     uri = os.getenv("DATABASE_URL", "sqlite:///local.db")
     if uri and uri.startswith("postgres://"):
         uri = uri.replace("postgres://", "postgresql://", 1)
@@ -29,6 +30,10 @@ def create_app(config_class=Config):
 
     # Initialize extensions
     db.init_app(app)
+    with app.app_context():
+        from app import models 
+        db.create_all()
+
     migrate.init_app(app, db)
     login_manager.init_app(app)
     login_manager.login_view = 'auth.login'
